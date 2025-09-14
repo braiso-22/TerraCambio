@@ -16,7 +16,10 @@ fun DropDownCheckBoxCard(
     modifier: Modifier = Modifier,
     dropDownContent: @Composable () -> Unit = {},
 ) {
-    OutlinedCard(modifier) {
+    OutlinedCard(
+        onClick = { onChecked(!checked) },
+        modifier = modifier,
+    ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start,
@@ -37,7 +40,7 @@ fun DropDownCheckBoxCard(
 @Preview
 @Composable
 private fun DropDownCheckBoxCardCompPreview() {
-    var checked by remember {mutableStateOf(true)  }
+    var checked by remember { mutableStateOf(true) }
 
     MaterialTheme {
         Scaffold {
@@ -49,7 +52,7 @@ private fun DropDownCheckBoxCardCompPreview() {
                 DropDownCheckBoxCard(
                     text = "pro",
                     checked = checked,
-                    onChecked = {checked = !checked},
+                    onChecked = { checked = !checked },
                     modifier = Modifier.padding(16.dp),
                 ) {
                     Text("Test", modifier = Modifier.padding(16.dp))

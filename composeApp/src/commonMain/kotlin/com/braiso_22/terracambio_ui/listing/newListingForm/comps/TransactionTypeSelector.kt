@@ -1,10 +1,6 @@
 package com.braiso_22.terracambio_ui.listing.newListingForm.comps
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
@@ -19,11 +15,7 @@ import com.braiso_22.terracambio_ui.listing.newListingForm.PriceTransactionState
 import com.braiso_22.terracambio_ui.listing.newListingForm.TransactionsState
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import terracambio.composeapp.generated.resources.Res
-import terracambio.composeapp.generated.resources.rent_transaction_type
-import terracambio.composeapp.generated.resources.sell_transaction_type
-import terracambio.composeapp.generated.resources.switch_transaction_type
-import terracambio.composeapp.generated.resources.transaction_type
+import terracambio.composeapp.generated.resources.*
 
 @Composable
 fun TransactionTypeSelector(
