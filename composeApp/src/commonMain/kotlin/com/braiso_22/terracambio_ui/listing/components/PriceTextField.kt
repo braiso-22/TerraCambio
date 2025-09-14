@@ -50,6 +50,7 @@ fun PriceTextField(
         label = {
             Text(stringResource(Res.string.price_in_euros))
         },
+        singleLine = true,
         supportingText = supportingText,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
         modifier = modifier

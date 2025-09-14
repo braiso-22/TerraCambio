@@ -1,24 +1,24 @@
 package com.braiso_22.terracambio_ui.listing.newListingForm
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Error
-import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.braiso_22.terracambio_ui.listing.components.DropDownCheckBoxCard
-import com.braiso_22.terracambio_ui.listing.components.PriceTextField
-import org.jetbrains.compose.resources.stringResource
+import com.braiso_22.terracambio_ui.listing.newListingForm.comps.CadastralCodeComp
+import com.braiso_22.terracambio_ui.listing.newListingForm.comps.TransactionTypeSelector
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import terracambio.composeapp.generated.resources.*
 
 @Composable
 fun NewListingForm(
-    state: NewListingFormState,
+    cadastralCodeState: CadastralCodeState,
+    transactionsState: TransactionsState,
     onEvent: (NewListingUserInteractions) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -27,79 +27,21 @@ fun NewListingForm(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Text(
-            text = stringResource(Res.string.enter_cadastral_code),
-            style = MaterialTheme.typography.titleLarge,
-        )
-        Text(
-            text = stringResource(Res.string.where_to_find_cadastral_code),
-            style = MaterialTheme.typography.bodyMedium,
-        )
-        OutlinedTextField(
-            value = state.cadastralCode,
-            onValueChange = {
-                onEvent(NewListingUserInteractions.OnModifyListingName(it))
+        CadastralCodeComp(
+            state = cadastralCodeState,
+            onChangeCode = {
+                onEvent(NewListingUserInteractions.OnChangeCadastralCode(it))
             },
-            isError = state.invalidCadastralCode,
-            label = {
-                Text(text = stringResource(Res.string.cadastral_code))
-            },
-            supportingText = {
-                Text(text = stringResource(Res.string.cadastral_code_requirement))
-            },
-            trailingIcon = {
-                if (state.isLoadingCadastralCode) {
-                    CircularProgressIndicator(
-                        color = LocalContentColor.current,
-                        strokeWidth = 2.dp,
-                        modifier = Modifier.size(24.dp),
-                    )
-                } else if (state.invalidCadastralCode) {
-                    Icon(Icons.Default.Error, null)
-                } else {
-                    Icon(Icons.Default.Check, null)
-                }
-            },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
         )
-        Text(
-            text = stringResource(Res.string.transaction_type),
-            style = MaterialTheme.typography.titleMedium,
-        )
-        DropDownCheckBoxCard(
-            text = stringResource(Res.string.sell_transaction_type),
-            checked = state.isSell,
-            onChecked = {
-                onEvent(NewListingUserInteractions.OnCheckSell)
-            }
-        ) {
-            PriceTextField(
-                value = state.sellPrice,
-                onValueChange = { onEvent(NewListingUserInteractions.OnChangeSellPrice(it)) },
-                invalidValue = state.invalidSellPrice,
-                modifier = Modifier.fillMaxWidth().padding(16.dp)
-            )
-        }
-        DropDownCheckBoxCard(
-            text = stringResource(Res.string.rent_transaction_type),
-            checked = state.isRent,
-            onChecked = {
-                onEvent(NewListingUserInteractions.OnCheckRent)
-            }
-        ) {
-            PriceTextField(
-                value = state.rentPrice,
-                onValueChange = { onEvent(NewListingUserInteractions.OnChangeRentPrice(it)) },
-                invalidValue = state.invalidRentPrice,
-                modifier = Modifier.fillMaxWidth().padding(16.dp)
-            )
-        }
-        DropDownCheckBoxCard(
-            text = stringResource(Res.string.switch_transaction_type),
-            checked = state.isSwitch,
-            onChecked = {
-                onEvent(NewListingUserInteractions.OnCheckSwitch)
-            }
+        TransactionTypeSelector(
+            state = transactionsState,
+            onCheckSell = { onEvent(NewListingUserInteractions.OnCheckSell) },
+            onCheckRent = { onEvent(NewListingUserInteractions.OnCheckRent) },
+            onCheckSwitch = { onEvent(NewListingUserInteractions.OnCheckSwitch) },
+            onChangeSellPrice = { onEvent(NewListingUserInteractions.OnChangeSellPrice(it)) },
+            onChangeRentPrice = { onEvent(NewListingUserInteractions.OnChangeRentPrice(it)) },
+            modifier = Modifier,
         )
     }
 }
@@ -108,58 +50,89 @@ fun NewListingForm(
 @Composable
 private fun NewListingContentPreview() {
     MaterialTheme {
-        Scaffold {
+        Scaffold { paddingValues ->
+            // Preview-local state that mimics screen state
+            var cadastral by remember { mutableStateOf<CadastralCodeState>(CadastralCodeState.Pristine) }
+            var transactions by remember {
+                mutableStateOf(
+                    TransactionsState(
+                        sellTransactionInfo = PriceTransactionState.Disabled,
+                        rentTransactionInfo = PriceTransactionState.Disabled,
+                        isSwitch = false
+                    )
+                )
+            }
+
             Column(
                 modifier = Modifier
-                    .verticalScroll(
-                        rememberScrollState()
-                    )
-                    .padding(it)
+                    .verticalScroll(rememberScrollState())
+                    .padding(paddingValues)
                     .fillMaxSize()
+                    .padding(16.dp)
             ) {
-                // Fake preview state and onEvent to preview behaviour
-                var previewState by remember {
-                    mutableStateOf(
-                        NewListingFormState(
-                            cadastralCode = "",
-                            invalidCadastralCode = true,
-                            isLoadingCadastralCode = false,
-                            isSell = false,
-                            sellPrice = "",
-                            invalidSellPrice = false,
-                            isRent = false,
-                            rentPrice = "",
-                            invalidRentPrice = false,
-                            isSwitch = false,
-                        )
-                    )
-                }
                 NewListingForm(
-                    state = previewState,
+                    cadastralCodeState = cadastral,
+                    transactionsState = transactions,
                     onEvent = { event ->
-                        val s = previewState
-                        previewState = when (event) {
-                            is NewListingUserInteractions.OnModifyListingName -> s.copy(
-                                cadastralCode = event.newName,
-                                invalidCadastralCode = event.newName.length != 14
-                            )
+                        when (event) {
+                            is NewListingUserInteractions.OnChangeCadastralCode -> {
+                                val v = event.newName
+                                cadastral = when {
+                                    v.length < 14 -> CadastralCodeState.InvalidFormat(v)
+                                    else -> CadastralCodeState.Valid(v)
+                                }
+                            }
 
-                            NewListingUserInteractions.OnCheckSell -> s.copy(isSell = !s.isSell)
-                            is NewListingUserInteractions.OnChangeSellPrice -> s.copy(
-                                sellPrice = event.newPrice,
-                                invalidSellPrice = event.newPrice.isEmpty()
-                            )
+                            NewListingUserInteractions.OnCheckSell -> {
+                                val current = transactions.sellTransactionInfo
+                                transactions = transactions.copy(
+                                    sellTransactionInfo = if (current is PriceTransactionState.Disabled) {
+                                        PriceTransactionState.ValidPrice("")
+                                    } else {
+                                        PriceTransactionState.Disabled
+                                    }
+                                )
+                            }
 
-                            NewListingUserInteractions.OnCheckRent -> s.copy(isRent = !s.isRent)
-                            is NewListingUserInteractions.OnChangeRentPrice -> s.copy(
-                                rentPrice = event.newPrice,
-                                invalidRentPrice = event.newPrice.isEmpty()
-                            )
+                            is NewListingUserInteractions.OnChangeSellPrice -> {
+                                val new = event.newPrice
+                                transactions = transactions.copy(
+                                    sellTransactionInfo = if (new.isEmpty()) {
+                                        PriceTransactionState.InvalidPrice(new)
+                                    } else {
+                                        PriceTransactionState.ValidPrice(new)
+                                    }
+                                )
+                            }
 
-                            NewListingUserInteractions.OnCheckSwitch -> s.copy(isSwitch = !s.isSwitch)
+                            NewListingUserInteractions.OnCheckRent -> {
+                                val current = transactions.rentTransactionInfo
+                                transactions = transactions.copy(
+                                    rentTransactionInfo = if (current is PriceTransactionState.Disabled) {
+                                        PriceTransactionState.ValidPrice("")
+                                    } else {
+                                        PriceTransactionState.Disabled
+                                    }
+                                )
+                            }
+
+                            is NewListingUserInteractions.OnChangeRentPrice -> {
+                                val new = event.newPrice
+                                transactions = transactions.copy(
+                                    rentTransactionInfo = if (new.isEmpty()) {
+                                        PriceTransactionState.InvalidPrice(new)
+                                    } else {
+                                        PriceTransactionState.ValidPrice(new)
+                                    }
+                                )
+                            }
+
+                            NewListingUserInteractions.OnCheckSwitch -> {
+                                transactions = transactions.copy(isSwitch = !transactions.isSwitch)
+                            }
                         }
                     },
-                    Modifier.padding(16.dp)
+                    modifier = Modifier.fillMaxSize()
                 )
             }
         }

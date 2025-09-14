@@ -6,6 +6,7 @@
     <string name="cadastral_code">Referencia catastral</string>
     <string name="transaction_type">Tipo de transacción</string>
     <string name="cadastral_code_requirement">Debe ser un valor de 14 caracteres de largo</string>
+    <string name="cadastral_code_not_found">Referencia catastral no encontrada</string>
     <string name="sell_transaction_type">Vender</string>
     <string name="rent_transaction_type">Alquilar</string>
     <string name="switch_transaction_type">Cambiar</string>

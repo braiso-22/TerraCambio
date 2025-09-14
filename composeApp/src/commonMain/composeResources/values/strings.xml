@@ -5,6 +5,7 @@
     <string name="cadastral_code">Cadastral code</string>
     <string name="transaction_type">Transaction type</string>
     <string name="cadastral_code_requirement">Must be a value 14 characters long</string>
+    <string name="cadastral_code_not_found">Cadastral code not found</string>
     <string name="sell_transaction_type">Sell</string>
     <string name="rent_transaction_type">Rent</string>
     <string name="switch_transaction_type">Switch</string>

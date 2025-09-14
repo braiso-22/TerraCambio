@@ -8,69 +8,103 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.*
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.braiso_22.terracambio_ui.listing.newListingForm.CadastralCodeState
 import com.braiso_22.terracambio_ui.listing.newListingForm.NewListingForm
-import com.braiso_22.terracambio_ui.listing.newListingForm.NewListingFormState
 import com.braiso_22.terracambio_ui.listing.newListingForm.NewListingUserInteractions
+import com.braiso_22.terracambio_ui.listing.newListingForm.PriceTransactionState
+import com.braiso_22.terracambio_ui.listing.newListingForm.TransactionsState
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 @Preview
 fun App() {
     MaterialTheme {
-        Scaffold {
+        Scaffold { paddingValues ->
+            // Preview-local state that mimics screen state
+            var cadastral by remember { mutableStateOf<CadastralCodeState>(CadastralCodeState.Pristine) }
+            var transactions by remember {
+                mutableStateOf(
+                    TransactionsState(
+                        sellTransactionInfo = PriceTransactionState.Disabled,
+                        rentTransactionInfo = PriceTransactionState.Disabled,
+                        isSwitch = false
+                    )
+                )
+            }
+
             Column(
                 modifier = Modifier
-                    .verticalScroll(
-                        rememberScrollState()
-                    )
-                    .padding(it)
+                    .verticalScroll(rememberScrollState())
+                    .padding(paddingValues)
                     .fillMaxSize()
+                    .padding(16.dp)
             ) {
-                // Fake preview state and onEvent to preview behaviour
-                var previewState by remember {
-                    mutableStateOf(
-                        NewListingFormState(
-                            cadastralCode = "",
-                            isLoadingCadastralCode = false,
-                            invalidCadastralCode = false,
-                            isSell = false,
-                            sellPrice = "",
-                            invalidSellPrice = false,
-                            isRent = false,
-                            rentPrice = "",
-                            invalidRentPrice = false,
-                            isSwitch = false,
-                        )
-                    )
-                }
                 NewListingForm(
-                    state = previewState,
+                    cadastralCodeState = cadastral,
+                    transactionsState = transactions,
                     onEvent = { event ->
-                        val s = previewState
-                        previewState = when (event) {
-                            is NewListingUserInteractions.OnModifyListingName -> s.copy(
-                                cadastralCode = event.newName,
-                                invalidCadastralCode = event.newName.length != 14
-                            )
+                        when (event) {
+                            is NewListingUserInteractions.OnChangeCadastralCode -> {
+                                val v = event.newName
+                                cadastral = when {
+                                    v.length < 14 -> CadastralCodeState.InvalidFormat(v)
+                                    else -> CadastralCodeState.Valid(v)
+                                }
+                            }
 
-                            NewListingUserInteractions.OnCheckSell -> s.copy(isSell = !s.isSell)
-                            is NewListingUserInteractions.OnChangeSellPrice -> s.copy(
-                                sellPrice = event.newPrice,
-                                invalidSellPrice = event.newPrice.isEmpty()
-                            )
+                            NewListingUserInteractions.OnCheckSell -> {
+                                val current = transactions.sellTransactionInfo
+                                transactions = transactions.copy(
+                                    sellTransactionInfo = if (current is PriceTransactionState.Disabled) {
+                                        PriceTransactionState.ValidPrice("")
+                                    } else {
+                                        PriceTransactionState.Disabled
+                                    }
+                                )
+                            }
 
-                            NewListingUserInteractions.OnCheckRent -> s.copy(isRent = !s.isRent)
-                            is NewListingUserInteractions.OnChangeRentPrice -> s.copy(
-                                rentPrice = event.newPrice,
-                                invalidRentPrice = event.newPrice.isEmpty()
-                            )
+                            is NewListingUserInteractions.OnChangeSellPrice -> {
+                                val new = event.newPrice
+                                transactions = transactions.copy(
+                                    sellTransactionInfo = if (new.isEmpty()) {
+                                        PriceTransactionState.InvalidPrice(new)
+                                    } else {
+                                        PriceTransactionState.ValidPrice(new)
+                                    }
+                                )
+                            }
 
-                            NewListingUserInteractions.OnCheckSwitch -> s.copy(isSwitch = !s.isSwitch)
+                            NewListingUserInteractions.OnCheckRent -> {
+                                val current = transactions.rentTransactionInfo
+                                transactions = transactions.copy(
+                                    rentTransactionInfo = if (current is PriceTransactionState.Disabled) {
+                                        PriceTransactionState.ValidPrice("")
+                                    } else {
+                                        PriceTransactionState.Disabled
+                                    }
+                                )
+                            }
+
+                            is NewListingUserInteractions.OnChangeRentPrice -> {
+                                val new = event.newPrice
+                                transactions = transactions.copy(
+                                    rentTransactionInfo = if (new.isEmpty()) {
+                                        PriceTransactionState.InvalidPrice(new)
+                                    } else {
+                                        PriceTransactionState.ValidPrice(new)
+                                    }
+                                )
+                            }
+
+                            NewListingUserInteractions.OnCheckSwitch -> {
+                                transactions = transactions.copy(isSwitch = !transactions.isSwitch)
+                            }
                         }
                     },
-                    Modifier.padding(16.dp)
+                    modifier = Modifier.fillMaxSize()
                 )
             }
         }
