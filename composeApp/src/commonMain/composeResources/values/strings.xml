@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">TerraCambio</string>
+    <string name="enter_cadastral_code">Enter you cadastral code</string>
+    <string name="where_to_find_cadastral_code">You can find this on you IBI receipt or in the cadastral webpage.</string>
+    <string name="cadastral_code">Cadastral code</string>
+    <string name="transaction_type">Transaction type</string>
+    <string name="cadastral_code_requirement">Must be a value 14 characters long</string>
+    <string name="sell_transaction_type">Sell</string>
+    <string name="rent_transaction_type">Rent</string>
+    <string name="switch_transaction_type">Switch</string>
+    <string name="price_in_euros">Price in euros</string>
+    <string name="cant_be_empty">Can't be empty</string>
+
+</resources>

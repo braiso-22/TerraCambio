@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TerraCambio</string>
+    <string name="enter_cadastral_code">Introduce la referencia catastral</string>
+    <string name="where_to_find_cadastral_code">Puedes encontrar este código en el recibo del IBI o en la web del catastro.</string>
+    <string name="cadastral_code">Referencia catastral</string>
+    <string name="transaction_type">Tipo de transacción</string>
+    <string name="cadastral_code_requirement">Debe ser un valor de 14 caracteres de largo</string>
+    <string name="sell_transaction_type">Vender</string>
+    <string name="rent_transaction_type">Alquilar</string>
+    <string name="switch_transaction_type">Cambiar</string>
+    <string name="price_in_euros">Precio en euros</string>
+    <string name="cant_be_empty">No puede estar vacío</string>
+</resources>
