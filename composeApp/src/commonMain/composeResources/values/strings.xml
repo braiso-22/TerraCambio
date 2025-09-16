@@ -11,5 +11,6 @@
     <string name="switch_transaction_type">Switch</string>
     <string name="price_in_euros">Price in euros</string>
     <string name="cant_be_empty">Can't be empty</string>
-
+    <string name="new_listing">New Listing</string>
+    <string name="save">Save</string>
 </resources>

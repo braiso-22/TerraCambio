@@ -11,8 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.braiso_22.terracambio_ui.listing.components.DropDownCheckBoxCard
 import com.braiso_22.terracambio_ui.listing.components.PriceTextField
-import com.braiso_22.terracambio_ui.listing.newListingForm.PriceTransactionState
-import com.braiso_22.terracambio_ui.listing.newListingForm.TransactionsState
+import com.braiso_22.terracambio_ui.listing.newListingPanel.PriceTransactionState
+import com.braiso_22.terracambio_ui.listing.newListingPanel.TransactionsState
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import terracambio.composeapp.generated.resources.*

@@ -13,6 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.braiso_22.terracambio_ui.listing.newListingForm.comps.CadastralCodeComp
 import com.braiso_22.terracambio_ui.listing.newListingForm.comps.TransactionTypeSelector
+import com.braiso_22.terracambio_ui.listing.newListingPanel.CadastralCodeState
+import com.braiso_22.terracambio_ui.listing.newListingPanel.PriceTransactionState
+import com.braiso_22.terracambio_ui.listing.newListingPanel.TransactionsState
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable

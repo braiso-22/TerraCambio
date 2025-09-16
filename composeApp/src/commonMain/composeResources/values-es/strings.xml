@@ -12,4 +12,6 @@
     <string name="switch_transaction_type">Cambiar</string>
     <string name="price_in_euros">Precio en euros</string>
     <string name="cant_be_empty">No puede estar vacío</string>
+    <string name="new_listing">Nuevo anuncio</string>
+    <string name="save">Guardar</string>
 </resources>

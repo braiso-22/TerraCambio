@@ -1,4 +1,4 @@
-package com.braiso_22.terracambio_ui.listing.newListingForm
+package com.braiso_22.terracambio_ui.listing.newListingPanel
 
 import androidx.compose.runtime.Stable
 
