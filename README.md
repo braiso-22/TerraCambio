@@ -1,4 +1,11 @@
-This is a Kotlin Multiplatform project targeting Android, iOS, Web, Desktop (JVM).
+# TerraCambio(UI + API)
+
+A Kotlin Compose + Spring Boot API for TerraCambio. This repository contains a minimal, clean architecture-style setup (ports and adapters/hexagonal) for a Listing feature, plus Springdoc OpenAPI for interactive API docs.
+
+
+## Targets
+
+This is a Kotlin Multiplatform project targeting Android, iOS, Web, Desktop and Server (JVM).
 
 * [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
   It contains several subfolders:
@@ -15,6 +22,23 @@ This is a Kotlin Multiplatform project targeting Android, iOS, Web, Desktop (JVM
 * [/shared](./shared/src) is for the code that will be shared between all targets in the project.
   The most important subfolder is [commonMain](./shared/src/commonMain/kotlin). If preferred, you
   can add code to the platform-specific folders here too.
+* [/listing](./listing/src/commonMain/kotlin/com/github/braiso_22/listing) is a KMP module for the shared domain logic of the listings to use it in the backend and the front
+* [/server](./server/src/main/kotlin/com/braiso_22/terracambio) is the API in springboot
+
+## Build commands
+
+### Build and Run Server
+
+To build and run the development version of the server, use the run configuration from the run widget
+in your IDE’s toolbar or run it directly from the terminal:
+- on macOS/Linux
+  ```shell
+  ./gradlew :server:run
+  ```
+- on Windows
+  ```shell
+  .\gradlew.bat :server:run
+  ```
 
 ### Build and Run Android Application
 
