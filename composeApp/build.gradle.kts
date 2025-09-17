@@ -46,7 +46,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.braiso_22.terracambio_ui"
+    namespace = "com.braiso_22.terracambio"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {

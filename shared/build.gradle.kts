@@ -45,7 +45,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.braiso_22.terracambio_ui.shared"
+    namespace = "com.braiso_22.terracambio.shared"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
