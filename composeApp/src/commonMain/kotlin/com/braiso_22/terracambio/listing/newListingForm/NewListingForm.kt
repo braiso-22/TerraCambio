@@ -79,7 +79,7 @@ private fun NewListingContentPreview() {
                     onEvent = { event ->
                         when (event) {
                             is NewListingUserInteractions.OnChangeCadastralCode -> {
-                                val v = event.newName
+                                val v = event.newCode
                                 cadastral = when {
                                     v.length < 14 -> CadastralCodeState.InvalidFormat(v)
                                     else -> CadastralCodeState.Valid(v)

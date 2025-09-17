@@ -1,7 +1,7 @@
 package com.braiso_22.terracambio.listing.newListingForm
 
 sealed interface NewListingUserInteractions {
-    data class OnChangeCadastralCode(val newName: String) : NewListingUserInteractions
+    data class OnChangeCadastralCode(val newCode: String) : NewListingUserInteractions
     data object OnCheckSell : NewListingUserInteractions
     data class OnChangeSellPrice(val newPrice: String) : NewListingUserInteractions
     data object OnCheckRent : NewListingUserInteractions

@@ -20,10 +20,9 @@ class NewListingPanelViewModel : ViewModel() {
             isSwitch = false
         )
     )
-    val transations = _transactionsState.asStateFlow()
+    val transactions = _transactionsState.asStateFlow()
 
     fun onSave() {
-        // restart by the moment
         _cadastralCodeState.update { CadastralCodeState.Pristine }
         _transactionsState.update {
             TransactionsState(
@@ -36,71 +35,80 @@ class NewListingPanelViewModel : ViewModel() {
 
     fun onFormEvent(event: NewListingUserInteractions) {
         when (event) {
-            is NewListingUserInteractions.OnChangeCadastralCode -> {
-                val v = event.newName
-                _cadastralCodeState.update {
-                    when {
-                        v.length < 14 -> CadastralCodeState.InvalidFormat(v)
-                        else -> CadastralCodeState.Valid(v)
-                    }
-                }
-            }
+            is NewListingUserInteractions.OnChangeCadastralCode -> onChangeNameCadastralCode(event.newCode)
 
-            NewListingUserInteractions.OnCheckSell -> {
-                _transactionsState.update { old ->
-                    val current = old.sellTransactionInfo
-                    old.copy(
-                        sellTransactionInfo = if (current is PriceTransactionState.Disabled) {
-                            PriceTransactionState.ValidPrice("")
-                        } else {
-                            PriceTransactionState.Disabled
-                        }
-                    )
-                }
-            }
+            NewListingUserInteractions.OnCheckSell -> onCheckSell()
 
-            is NewListingUserInteractions.OnChangeSellPrice -> {
-                _transactionsState.update { old ->
-                    val new = event.newPrice
-                    old.copy(
-                        sellTransactionInfo = if (new.isEmpty()) {
-                            PriceTransactionState.InvalidPrice(new)
-                        } else {
-                            PriceTransactionState.ValidPrice(new)
-                        }
-                    )
-                }
-            }
+            is NewListingUserInteractions.OnChangeSellPrice -> onChangeSell(event.newPrice)
 
-            NewListingUserInteractions.OnCheckRent -> {
-                _transactionsState.update { old ->
-                    val current = old.rentTransactionInfo
-                    old.copy(
-                        rentTransactionInfo = if (current is PriceTransactionState.Disabled) {
-                            PriceTransactionState.ValidPrice("")
-                        } else {
-                            PriceTransactionState.Disabled
-                        }
-                    )
-                }
-            }
+            NewListingUserInteractions.OnCheckRent -> onCheckRent()
 
-            is NewListingUserInteractions.OnChangeRentPrice -> {
-                val new = event.newPrice
-                _transactionsState.update { old ->
-                    old.copy(
-                        rentTransactionInfo = if (new.isEmpty()) {
-                            PriceTransactionState.InvalidPrice(new)
-                        } else {
-                            PriceTransactionState.ValidPrice(new)
-                        }
-                    )
-                }
-            }
+            is NewListingUserInteractions.OnChangeRentPrice -> onChangeRentPrice(event.newPrice)
 
-            NewListingUserInteractions.OnCheckSwitch -> {
-                _transactionsState.update { old -> old.copy(isSwitch = !old.isSwitch) }
+            NewListingUserInteractions.OnCheckSwitch -> onChangeSwitch()
+        }
+    }
+
+    private fun onChangeNameCadastralCode(code: String) {
+        _cadastralCodeState.update {
+            when {
+                code.length < 14 -> CadastralCodeState.InvalidFormat(code)
+                else -> CadastralCodeState.Valid(code)
             }
         }
+    }
+
+    private fun onCheckSell() {
+        _transactionsState.update { old ->
+            val current = old.sellTransactionInfo
+            old.copy(
+                sellTransactionInfo = if (current is PriceTransactionState.Disabled) {
+                    PriceTransactionState.ValidPrice("")
+                } else {
+                    PriceTransactionState.Disabled
+                }
+            )
+        }
+    }
+
+    private fun onChangeSell(newPrice: String) {
+        _transactionsState.update { old ->
+            old.copy(
+                sellTransactionInfo = if (newPrice.isEmpty()) {
+                    PriceTransactionState.InvalidPrice(newPrice)
+                } else {
+                    PriceTransactionState.ValidPrice(newPrice)
+                }
+            )
+        }
+    }
+
+    private fun onCheckRent() {
+        _transactionsState.update { old ->
+            val current = old.rentTransactionInfo
+            old.copy(
+                rentTransactionInfo = if (current is PriceTransactionState.Disabled) {
+                    PriceTransactionState.ValidPrice("")
+                } else {
+                    PriceTransactionState.Disabled
+                }
+            )
+        }
+    }
+
+    private fun onChangeRentPrice(newPrice: String) {
+        _transactionsState.update { old ->
+            old.copy(
+                rentTransactionInfo = if (newPrice.isEmpty()) {
+                    PriceTransactionState.InvalidPrice(newPrice)
+                } else {
+                    PriceTransactionState.ValidPrice(newPrice)
+                }
+            )
+        }
+    }
+
+    private fun onChangeSwitch() {
+        _transactionsState.update { old -> old.copy(isSwitch = !old.isSwitch) }
     }
 }

@@ -25,7 +25,7 @@ fun NewListingPanel(
     viewModel: NewListingPanelViewModel = NewListingPanelViewModel(),
 ) {
     val cadastralCode by viewModel.cadastralCode.collectAsState()
-    val transactions by viewModel.transations.collectAsState()
+    val transactions by viewModel.transactions.collectAsState()
     Scaffold(
         topBar = {
             TopAppBar(title = {
