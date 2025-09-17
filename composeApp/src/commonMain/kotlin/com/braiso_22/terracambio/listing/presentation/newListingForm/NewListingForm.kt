@@ -1,4 +1,4 @@
-package com.braiso_22.terracambio.listing.newListingForm
+package com.braiso_22.terracambio.listing.presentation.newListingForm
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,11 +11,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.braiso_22.terracambio.listing.newListingForm.comps.CadastralCodeComp
-import com.braiso_22.terracambio.listing.newListingForm.comps.TransactionTypeSelector
-import com.braiso_22.terracambio.listing.newListingPanel.CadastralCodeState
-import com.braiso_22.terracambio.listing.newListingPanel.PriceTransactionState
-import com.braiso_22.terracambio.listing.newListingPanel.TransactionsState
+import com.braiso_22.terracambio.listing.presentation.newListingForm.comps.CadastralCodeComp
+import com.braiso_22.terracambio.listing.presentation.newListingForm.comps.TransactionTypeSelector
+import com.braiso_22.terracambio.listing.presentation.newListingPanel.CadastralCodeState
+import com.braiso_22.terracambio.listing.presentation.newListingPanel.PriceTransactionState
+import com.braiso_22.terracambio.listing.presentation.newListingPanel.TransactionsState
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable

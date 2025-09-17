@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import com.braiso_22.terracambio.listing.newListingPanel.NewListingPanel
+import com.braiso_22.terracambio.listing.presentation.newListingPanel.NewListingPanel
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 fun main() = application {

@@ -1,4 +1,4 @@
-package com.braiso_22.terracambio.listing.components
+package com.braiso_22.terracambio.listing.presentation.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*

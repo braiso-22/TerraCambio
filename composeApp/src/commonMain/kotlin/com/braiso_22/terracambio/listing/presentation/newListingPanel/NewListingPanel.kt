@@ -1,4 +1,4 @@
-package com.braiso_22.terracambio.listing.newListingPanel
+package com.braiso_22.terracambio.listing.presentation.newListingPanel
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,7 +12,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.braiso_22.terracambio.listing.newListingForm.NewListingForm
+import com.braiso_22.terracambio.listing.presentation.newListingForm.NewListingForm
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import terracambio.composeapp.generated.resources.Res

@@ -1,12 +1,14 @@
-package com.braiso_22.terracambio.listing.newListingPanel
+package com.braiso_22.terracambio.listing.presentation.newListingPanel
 
 import androidx.lifecycle.ViewModel
-import com.braiso_22.terracambio.listing.newListingForm.NewListingUserInteractions
+import com.braiso_22.terracambio.listing.presentation.newListingForm.NewListingUserInteractions
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-class NewListingPanelViewModel : ViewModel() {
+class NewListingPanelViewModel(
+
+) : ViewModel() {
 
     private val _cadastralCodeState = MutableStateFlow<CadastralCodeState>(
         CadastralCodeState.Pristine
@@ -23,6 +25,8 @@ class NewListingPanelViewModel : ViewModel() {
     val transactions = _transactionsState.asStateFlow()
 
     fun onSave() {
+
+
         _cadastralCodeState.update { CadastralCodeState.Pristine }
         _transactionsState.update {
             TransactionsState(

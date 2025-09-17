@@ -1,4 +1,4 @@
-package com.braiso_22.terracambio.listing.newListingForm.comps
+package com.braiso_22.terracambio.listing.presentation.newListingForm.comps
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -10,7 +10,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.braiso_22.terracambio.listing.newListingPanel.CadastralCodeState
+import com.braiso_22.terracambio.listing.presentation.newListingPanel.CadastralCodeState
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import terracambio.composeapp.generated.resources.*
