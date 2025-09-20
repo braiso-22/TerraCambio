@@ -1,13 +1,15 @@
-package com.braiso_22.terracambio.listing.application.port.out.dtos
+package com.github.braiso_22.listing
 
-import com.github.braiso_22.listing.vo.CadastralCode
+import com.github.braiso_22.listing.vo.ListingId
 import com.github.braiso_22.listing.vo.ListingName
 import com.github.braiso_22.listing.vo.ListingTransactions
+import com.github.braiso_22.listing.vo.Location
 import com.github.braiso_22.listing.vo.OwnerId
 
-data class AddListingServerDto(
+data class Listing (
+    val id: ListingId,
     val name: ListingName,
     val listingTransactions: ListingTransactions,
-    val cadastralCode: CadastralCode,
-    val ownerId: OwnerId,
+    val location: Location,
+    val ownerId: OwnerId
 )

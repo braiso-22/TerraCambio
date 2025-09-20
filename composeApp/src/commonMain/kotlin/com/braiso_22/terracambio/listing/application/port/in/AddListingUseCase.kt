@@ -5,7 +5,7 @@ import com.braiso_22.terracambio.listing.application.port.out.ListingLocalDataSo
 import com.braiso_22.terracambio.listing.application.port.out.ListingServerDataSource
 import com.braiso_22.terracambio.listing.application.port.out.UserLocalDataSource
 import com.braiso_22.terracambio.listing.application.port.out.dtos.AddListingServerDto
-import com.github.braiso_22.listing.domain.vo.*
+import com.github.braiso_22.listing.vo.OwnerId
 import kotlin.uuid.ExperimentalUuidApi
 
 class AddListingUseCase(
@@ -16,21 +16,13 @@ class AddListingUseCase(
     @OptIn(ExperimentalUuidApi::class)
     override suspend fun invoke(command: AddListingCommand): AddListingResult {
 
-        val cadastralCode = try {
-            CadastralCode(command.cadastralCode)
-        } catch (_: IllegalArgumentException) {
-            return AddListingResult.BadCadastralCode
-        }
-
         val userId = userLocalDataSource.getUserId()
 
         val listing = try {
             AddListingServerDto(
-                name = ListingName(command.listingName),
-                listingTransactions = ListingTransactions(
-                    command.transactions.map { it.toListingType() }.toSet()
-                ),
-                cadastralCode = cadastralCode,
+                name = command.listingName,
+                listingTransactions = command.transactions,
+                cadastralCode = command.cadastralCode,
                 ownerId = OwnerId(userId.value)
             )
         } catch (e: IllegalArgumentException) {

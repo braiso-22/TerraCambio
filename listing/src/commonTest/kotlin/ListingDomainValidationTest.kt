@@ -1,7 +1,17 @@
 package com.braiso_22.listing.domain
 
-import com.github.braiso_22.listing.domain.Listing
-import com.github.braiso_22.listing.domain.vo.*
+import com.github.braiso_22.listing.Listing
+import com.github.braiso_22.listing.vo.CadastralCode
+import com.github.braiso_22.listing.vo.GeoLocation
+import com.github.braiso_22.listing.vo.Latitude
+import com.github.braiso_22.listing.vo.ListingId
+import com.github.braiso_22.listing.vo.ListingName
+import com.github.braiso_22.listing.vo.ListingTransactions
+import com.github.braiso_22.listing.vo.Location
+import com.github.braiso_22.listing.vo.Longitude
+import com.github.braiso_22.listing.vo.Money
+import com.github.braiso_22.listing.vo.OwnerId
+import com.github.braiso_22.listing.vo.TransactionType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
