@@ -48,8 +48,8 @@ fun TransactionTypeSelector(
                 is PriceTransactionState.Enabled -> {
                     PriceTextField(
                         value = state.sellTransactionInfo.price,
-                        onValueChange = onChangeSellPrice,
                         invalidValue = state.sellTransactionInfo is PriceTransactionState.InvalidPrice,
+                        onValueChange = onChangeSellPrice,
                         modifier = Modifier.fillMaxWidth().padding(16.dp)
                     )
                 }

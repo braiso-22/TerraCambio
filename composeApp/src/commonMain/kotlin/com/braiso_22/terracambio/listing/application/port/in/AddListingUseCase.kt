@@ -8,7 +8,15 @@ import com.braiso_22.terracambio.listing.application.port.out.dtos.AddListingSer
 import com.github.braiso_22.listing.vo.OwnerId
 import kotlin.uuid.ExperimentalUuidApi
 
-class AddListingUseCase(
+fun AddListing(
+    listingLocalDataSource: ListingLocalDataSource,
+    listingServerDataSource: ListingServerDataSource,
+    userLocalDataSource: UserLocalDataSource,
+): AddListing {
+    return AddListingUseCase(listingLocalDataSource, listingServerDataSource, userLocalDataSource)
+}
+
+private class AddListingUseCase(
     private val listingLocalDataSource: ListingLocalDataSource,
     private val listingServerDataSource: ListingServerDataSource,
     private val userLocalDataSource: UserLocalDataSource,

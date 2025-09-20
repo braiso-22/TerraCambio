@@ -7,7 +7,6 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.braiso_22.terracambio.listing.application.port.`in`.AddListing
 import com.braiso_22.terracambio.listing.application.port.`in`.AddListingCommand
 import com.braiso_22.terracambio.listing.application.port.`in`.AddListingResult
-import com.braiso_22.terracambio.listing.application.port.`in`.AddListingUseCase
 import com.braiso_22.terracambio.listing.infrastructure.adapters.output.FakeUserLocalDataSource
 import com.braiso_22.terracambio.listing.infrastructure.adapters.output.InMemoryListingLocalDataSource
 import com.braiso_22.terracambio.listing.infrastructure.adapters.output.InMemoryListingServerDataSource
@@ -31,6 +30,9 @@ class NewListingPanelViewModel(
     )
     val cadastralCode = _cadastralCodeState.asStateFlow()
 
+    private val _listingName = MutableStateFlow<String>("")
+    val listingName = _listingName.asStateFlow()
+
     private val _transactionsState = MutableStateFlow<TransactionsState>(
         TransactionsState(
             sellTransactionInfo = PriceTransactionState.Disabled,
@@ -48,9 +50,9 @@ class NewListingPanelViewModel(
         viewModelScope.launch {
             val command = try {
                 AddListingCommand(
-                    listingName = ListingName(""),
-                    transactions = ListingTransactions(setOf()),
-                    cadastralCode = CadastralCode("")
+                    listingName = ListingName(listingName.value),
+                    transactions = transactions.value.toDomain(),
+                    cadastralCode = CadastralCode(listingName.value)
                 )
             } catch (_: IllegalArgumentException) {
                 _eventFlow.emit(NewListingUiEvent.BadFormat)
@@ -88,6 +90,9 @@ class NewListingPanelViewModel(
             is NewListingUserInteractions.OnChangeRentPrice -> onChangeRentPrice(event.newPrice)
 
             NewListingUserInteractions.OnCheckSwitch -> onChangeSwitch()
+            is NewListingUserInteractions.OnChangeListingName -> {
+                _listingName.update { event.newName }
+            }
         }
     }
 
@@ -113,18 +118,6 @@ class NewListingPanelViewModel(
         }
     }
 
-    private fun onChangeSell(newPrice: String) {
-        _transactionsState.update { old ->
-            old.copy(
-                sellTransactionInfo = if (newPrice.isEmpty()) {
-                    PriceTransactionState.InvalidPrice(newPrice)
-                } else {
-                    PriceTransactionState.ValidPrice(newPrice)
-                }
-            )
-        }
-    }
-
     private fun onCheckRent() {
         _transactionsState.update { old ->
             val current = old.rentTransactionInfo
@@ -138,15 +131,15 @@ class NewListingPanelViewModel(
         }
     }
 
+    private fun onChangeSell(newPrice: String) {
+        _transactionsState.update { old ->
+            old.copy(sellTransactionInfo = newPrice.toPriceTransactionState())
+        }
+    }
+
     private fun onChangeRentPrice(newPrice: String) {
         _transactionsState.update { old ->
-            old.copy(
-                rentTransactionInfo = if (newPrice.isEmpty()) {
-                    PriceTransactionState.InvalidPrice(newPrice)
-                } else {
-                    PriceTransactionState.ValidPrice(newPrice)
-                }
-            )
+            old.copy(rentTransactionInfo = newPrice.toPriceTransactionState())
         }
     }
 
@@ -155,10 +148,24 @@ class NewListingPanelViewModel(
     }
 }
 
+
+private fun String.isValidPrice(): Boolean {
+    // only numbers before and after a "," or "."
+    val regex = Regex("^\\d+(?:[.,]\\d+)?$")
+    return this.isBlank() || !regex.matches(this)
+}
+
+private fun String.toPriceTransactionState(): PriceTransactionState = if (this.isValidPrice()) {
+    PriceTransactionState.InvalidPrice(this)
+} else {
+    PriceTransactionState.ValidPrice(this)
+}
+
+
 val mainViewModelFactory = viewModelFactory {
     initializer {
         NewListingPanelViewModel(
-            addListing = AddListingUseCase(
+            addListing = AddListing(
                 listingLocalDataSource = InMemoryListingLocalDataSource(),
                 listingServerDataSource = InMemoryListingServerDataSource(),
                 userLocalDataSource = FakeUserLocalDataSource(),

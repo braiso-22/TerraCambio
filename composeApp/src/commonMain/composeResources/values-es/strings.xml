@@ -4,6 +4,7 @@
     <string name="enter_cadastral_code">Introduce la referencia catastral</string>
     <string name="where_to_find_cadastral_code">Puedes encontrar este código en el recibo del IBI o en la web del catastro.</string>
     <string name="cadastral_code">Referencia catastral</string>
+    <string name="listing_name">Nombre del anuncio</string>
     <string name="transaction_type">Tipo de transacción</string>
     <string name="cadastral_code_requirement">Debe ser un valor de 14 caracteres de largo</string>
     <string name="cadastral_code_not_found">Referencia catastral no encontrada</string>
@@ -14,4 +15,8 @@
     <string name="cant_be_empty">No puede estar vacío</string>
     <string name="new_listing">Nuevo anuncio</string>
     <string name="save">Guardar</string>
+    <string name="bad_format">Formato inválido</string>
+    <string name="could_not_create">No se pudo crear el anuncio</string>
+    <string name="listing_created">Anuncio creado</string>
+    <string name="invalid_price">Precio inválido</string>
 </resources>

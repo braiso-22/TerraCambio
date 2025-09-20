@@ -3,6 +3,7 @@
     <string name="enter_cadastral_code">Enter you cadastral code</string>
     <string name="where_to_find_cadastral_code">You can find this on you IBI receipt or in the cadastral webpage.</string>
     <string name="cadastral_code">Cadastral code</string>
+    <string name="listing_name">Listing name</string>
     <string name="transaction_type">Transaction type</string>
     <string name="cadastral_code_requirement">Must be a value 14 characters long</string>
     <string name="cadastral_code_not_found">Cadastral code not found</string>
@@ -13,4 +14,8 @@
     <string name="cant_be_empty">Can't be empty</string>
     <string name="new_listing">New Listing</string>
     <string name="save">Save</string>
+    <string name="bad_format">Bad format</string>
+    <string name="could_not_create">Couldn't create the listing</string>
+    <string name="listing_created">Listing created</string>
+    <string name="invalid_price">Invalid price</string>
 </resources>

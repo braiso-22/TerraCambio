@@ -16,6 +16,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import terracambio.composeapp.generated.resources.Res
 import terracambio.composeapp.generated.resources.cant_be_empty
+import terracambio.composeapp.generated.resources.invalid_price
 import terracambio.composeapp.generated.resources.price_in_euros
 
 @Composable
@@ -27,11 +28,10 @@ fun PriceTextField(
 ) {
 
     val supportingText: (@Composable () -> Unit)? = if (invalidValue) {
-        { Text(stringResource(Res.string.cant_be_empty)) }
+        { Text(stringResource(Res.string.invalid_price)) }
     } else {
         null
     }
-
 
     OutlinedTextField(
         value = value,

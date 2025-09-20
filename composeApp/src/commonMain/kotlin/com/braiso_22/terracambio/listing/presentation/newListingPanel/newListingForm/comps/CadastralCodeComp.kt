@@ -88,7 +88,7 @@ fun CadastralCodeComp(
 
 @Preview
 @Composable
-fun CadastralCodeCompPreview() {
+private fun CadastralCodeCompPreview() {
     MaterialTheme {
         Scaffold {
             Column(

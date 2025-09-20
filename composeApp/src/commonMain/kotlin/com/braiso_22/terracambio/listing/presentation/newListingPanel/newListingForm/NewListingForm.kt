@@ -3,9 +3,11 @@ package com.braiso_22.terracambio.listing.presentation.newListingPanel.newListin
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.*
@@ -14,12 +16,17 @@ import androidx.compose.ui.unit.dp
 import com.braiso_22.terracambio.listing.presentation.newListingPanel.newListingForm.comps.CadastralCodeComp
 import com.braiso_22.terracambio.listing.presentation.newListingPanel.newListingForm.comps.TransactionTypeSelector
 import com.braiso_22.terracambio.listing.presentation.newListingPanel.CadastralCodeState
+import com.braiso_22.terracambio.listing.presentation.newListingPanel.CadastralCodeState.*
 import com.braiso_22.terracambio.listing.presentation.newListingPanel.PriceTransactionState
+import com.braiso_22.terracambio.listing.presentation.newListingPanel.PriceTransactionState.*
 import com.braiso_22.terracambio.listing.presentation.newListingPanel.TransactionsState
+import com.braiso_22.terracambio.listing.presentation.newListingPanel.newListingForm.comps.ListingNameComp
+import com.github.braiso_22.listing.vo.ListingName
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun NewListingForm(
+    listingName: String,
     cadastralCodeState: CadastralCodeState,
     transactionsState: TransactionsState,
     onEvent: (NewListingUserInteractions) -> Unit,
@@ -30,6 +37,13 @@ fun NewListingForm(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        ListingNameComp(
+            state = listingName,
+            onChangeCode = {
+                onEvent(NewListingUserInteractions.OnChangeListingName(it))
+            },
+            modifier = Modifier
+        )
         CadastralCodeComp(
             state = cadastralCodeState,
             onChangeCode = {
@@ -56,6 +70,7 @@ private fun NewListingContentPreview() {
         Scaffold { paddingValues ->
             // Preview-local state that mimics screen state
             var cadastral by remember { mutableStateOf<CadastralCodeState>(CadastralCodeState.Pristine) }
+            var listingName by remember { mutableStateOf<String>("") }
             var transactions by remember {
                 mutableStateOf(
                     TransactionsState(
@@ -74,6 +89,7 @@ private fun NewListingContentPreview() {
                     .padding(16.dp)
             ) {
                 NewListingForm(
+                    listingName = listingName,
                     cadastralCodeState = cadastral,
                     transactionsState = transactions,
                     onEvent = { event ->
@@ -81,8 +97,8 @@ private fun NewListingContentPreview() {
                             is NewListingUserInteractions.OnChangeCadastralCode -> {
                                 val v = event.newCode
                                 cadastral = when {
-                                    v.length < 14 -> CadastralCodeState.InvalidFormat(v)
-                                    else -> CadastralCodeState.Valid(v)
+                                    v.length < 14 -> InvalidFormat(v)
+                                    else -> Valid(v)
                                 }
                             }
 
@@ -90,7 +106,7 @@ private fun NewListingContentPreview() {
                                 val current = transactions.sellTransactionInfo
                                 transactions = transactions.copy(
                                     sellTransactionInfo = if (current is PriceTransactionState.Disabled) {
-                                        PriceTransactionState.ValidPrice("")
+                                        ValidPrice("")
                                     } else {
                                         PriceTransactionState.Disabled
                                     }
@@ -101,9 +117,9 @@ private fun NewListingContentPreview() {
                                 val new = event.newPrice
                                 transactions = transactions.copy(
                                     sellTransactionInfo = if (new.isEmpty()) {
-                                        PriceTransactionState.InvalidPrice(new)
+                                        InvalidPrice(new)
                                     } else {
-                                        PriceTransactionState.ValidPrice(new)
+                                        ValidPrice(new)
                                     }
                                 )
                             }
@@ -112,7 +128,7 @@ private fun NewListingContentPreview() {
                                 val current = transactions.rentTransactionInfo
                                 transactions = transactions.copy(
                                     rentTransactionInfo = if (current is PriceTransactionState.Disabled) {
-                                        PriceTransactionState.ValidPrice("")
+                                        ValidPrice("")
                                     } else {
                                         PriceTransactionState.Disabled
                                     }
@@ -123,15 +139,19 @@ private fun NewListingContentPreview() {
                                 val new = event.newPrice
                                 transactions = transactions.copy(
                                     rentTransactionInfo = if (new.isEmpty()) {
-                                        PriceTransactionState.InvalidPrice(new)
+                                        InvalidPrice(new)
                                     } else {
-                                        PriceTransactionState.ValidPrice(new)
+                                        ValidPrice(new)
                                     }
                                 )
                             }
 
                             NewListingUserInteractions.OnCheckSwitch -> {
                                 transactions = transactions.copy(isSwitch = !transactions.isSwitch)
+                            }
+
+                            is NewListingUserInteractions.OnChangeListingName -> {
+                                listingName = event.newName
                             }
                         }
                     },
