@@ -1,4 +1,4 @@
-package com.braiso_22.terracambio.listing.presentation.newListingForm
+package com.braiso_22.terracambio.listing.presentation.newListingPanel.newListingForm
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,8 +11,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.braiso_22.terracambio.listing.presentation.newListingForm.comps.CadastralCodeComp
-import com.braiso_22.terracambio.listing.presentation.newListingForm.comps.TransactionTypeSelector
+import com.braiso_22.terracambio.listing.presentation.newListingPanel.newListingForm.comps.CadastralCodeComp
+import com.braiso_22.terracambio.listing.presentation.newListingPanel.newListingForm.comps.TransactionTypeSelector
 import com.braiso_22.terracambio.listing.presentation.newListingPanel.CadastralCodeState
 import com.braiso_22.terracambio.listing.presentation.newListingPanel.PriceTransactionState
 import com.braiso_22.terracambio.listing.presentation.newListingPanel.TransactionsState

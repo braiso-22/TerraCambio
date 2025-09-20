@@ -1,4 +1,4 @@
-package com.braiso_22.terracambio.listing.presentation.newListingForm
+package com.braiso_22.terracambio.listing.presentation.newListingPanel.newListingForm
 
 sealed interface NewListingUserInteractions {
     data class OnChangeCadastralCode(val newCode: String) : NewListingUserInteractions

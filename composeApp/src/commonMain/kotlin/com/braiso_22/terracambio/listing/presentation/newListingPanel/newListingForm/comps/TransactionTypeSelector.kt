@@ -1,4 +1,4 @@
-package com.braiso_22.terracambio.listing.presentation.newListingForm.comps
+package com.braiso_22.terracambio.listing.presentation.newListingPanel.newListingForm.comps
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -9,8 +9,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.braiso_22.terracambio.listing.presentation.components.DropDownCheckBoxCard
-import com.braiso_22.terracambio.listing.presentation.components.PriceTextField
+import com.braiso_22.terracambio.listing.presentation.newListingPanel.components.DropDownCheckBoxCard
+import com.braiso_22.terracambio.listing.presentation.newListingPanel.components.PriceTextField
 import com.braiso_22.terracambio.listing.presentation.newListingPanel.PriceTransactionState
 import com.braiso_22.terracambio.listing.presentation.newListingPanel.TransactionsState
 import org.jetbrains.compose.resources.stringResource

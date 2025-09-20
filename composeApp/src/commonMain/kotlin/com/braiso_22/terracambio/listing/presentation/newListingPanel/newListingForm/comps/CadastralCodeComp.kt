@@ -1,4 +1,4 @@
-package com.braiso_22.terracambio.listing.presentation.newListingForm.comps
+package com.braiso_22.terracambio.listing.presentation.newListingPanel.newListingForm.comps
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState

@@ -1,4 +1,4 @@
-package com.braiso_22.terracambio.listing.presentation.components
+package com.braiso_22.terracambio.listing.presentation.newListingPanel.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*

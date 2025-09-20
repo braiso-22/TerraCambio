@@ -1,13 +1,29 @@
 package com.braiso_22.terracambio.listing.presentation.newListingPanel
 
 import androidx.lifecycle.ViewModel
-import com.braiso_22.terracambio.listing.presentation.newListingForm.NewListingUserInteractions
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.braiso_22.terracambio.listing.application.port.`in`.AddListing
+import com.braiso_22.terracambio.listing.application.port.`in`.AddListingCommand
+import com.braiso_22.terracambio.listing.application.port.`in`.AddListingResult
+import com.braiso_22.terracambio.listing.application.port.`in`.AddListingUseCase
+import com.braiso_22.terracambio.listing.infrastructure.adapters.out.FakeUserLocalDataSource
+import com.braiso_22.terracambio.listing.infrastructure.adapters.out.InMemoryListingLocalDataSource
+import com.braiso_22.terracambio.listing.infrastructure.adapters.out.InMemoryListingServerDataSource
+import com.braiso_22.terracambio.listing.presentation.newListingPanel.newListingForm.NewListingUserInteractions
+import com.github.braiso_22.listing.domain.vo.CadastralCode
+import com.github.braiso_22.listing.domain.vo.ListingName
+import com.github.braiso_22.listing.domain.vo.ListingTransactions
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class NewListingPanelViewModel(
-
+    private val addListing: AddListing,
 ) : ViewModel() {
 
     private val _cadastralCodeState = MutableStateFlow<CadastralCodeState>(
@@ -24,16 +40,38 @@ class NewListingPanelViewModel(
     )
     val transactions = _transactionsState.asStateFlow()
 
+
+    private val _eventFlow = MutableSharedFlow<NewListingUiEvent>()
+    val eventFlow = _eventFlow.asSharedFlow()
+
     fun onSave() {
+        viewModelScope.launch {
+            val command = try {
+                AddListingCommand(
+                    listingName = ListingName(""),
+                    transactions = ListingTransactions(setOf()),
+                    cadastralCode = CadastralCode("")
+                )
+            } catch (_: IllegalArgumentException) {
+                _eventFlow.emit(NewListingUiEvent.BadFormat)
+                return@launch
+            }
 
+            val result = addListing(command = command)
+            when (result) {
+                AddListingResult.BadCadastralCode -> {
+                    _eventFlow.emit(NewListingUiEvent.CadastralCodeNotFound)
+                }
 
-        _cadastralCodeState.update { CadastralCodeState.Pristine }
-        _transactionsState.update {
-            TransactionsState(
-                sellTransactionInfo = PriceTransactionState.Disabled,
-                rentTransactionInfo = PriceTransactionState.Disabled,
-                isSwitch = false
-            )
+                is AddListingResult.BadCommand -> {
+                    _eventFlow.emit(NewListingUiEvent.CouldNotCreate)
+
+                }
+
+                AddListingResult.Success -> {
+                    _eventFlow.emit(NewListingUiEvent.ListingCreated)
+                }
+            }
         }
     }
 
@@ -114,5 +152,17 @@ class NewListingPanelViewModel(
 
     private fun onChangeSwitch() {
         _transactionsState.update { old -> old.copy(isSwitch = !old.isSwitch) }
+    }
+}
+
+val mainViewModelFactory = viewModelFactory {
+    initializer {
+        NewListingPanelViewModel(
+            addListing = AddListingUseCase(
+                listingLocalDataSource = InMemoryListingLocalDataSource(),
+                listingServerDataSource = InMemoryListingServerDataSource(),
+                userLocalDataSource = FakeUserLocalDataSource(),
+            )
+        )
     }
 }

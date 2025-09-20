@@ -12,7 +12,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.braiso_22.terracambio.listing.presentation.newListingForm.NewListingForm
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.braiso_22.terracambio.listing.presentation.newListingPanel.newListingForm.NewListingForm
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import terracambio.composeapp.generated.resources.Res
@@ -22,7 +23,9 @@ import terracambio.composeapp.generated.resources.new_listing
 @Composable
 fun NewListingPanel(
     modifier: Modifier = Modifier,
-    viewModel: NewListingPanelViewModel = NewListingPanelViewModel(),
+    viewModel: NewListingPanelViewModel = viewModel(
+        factory = mainViewModelFactory,
+    ),
 ) {
     val cadastralCode by viewModel.cadastralCode.collectAsState()
     val transactions by viewModel.transactions.collectAsState()
