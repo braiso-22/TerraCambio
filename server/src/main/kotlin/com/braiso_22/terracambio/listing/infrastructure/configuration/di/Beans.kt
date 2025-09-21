@@ -1,16 +1,13 @@
 package com.braiso_22.terracambio.listing.infrastructure.configuration.di
 
-import com.braiso_22.terracambio.listing.application.AddListing
-import com.braiso_22.terracambio.listing.application.GetListings
-import com.braiso_22.terracambio.listing.application.ValidateCadastralCode
-import com.braiso_22.terracambio.listing.infrastructure.adapters.out.httpClient
-import com.braiso_22.terracambio.listing.infrastructure.adapters.out.providers.FakeLocationProvider
-import com.braiso_22.terracambio.listing.infrastructure.adapters.out.repository.InMemoryListingRepository
-import com.github.braiso_22.listing.application.port.`in`.addListing.AddListing
-import com.github.braiso_22.listing.application.port.`in`.getListings.GetListings
-import com.github.braiso_22.listing.application.port.`in`.validateCadastralCode.ValidateCadastralCode
-import com.github.braiso_22.listing.application.port.out.ListingRepository
-import com.github.braiso_22.listing.application.port.out.LocationProvider
+import com.braiso_22.terracambio.listing.infrastructure.adapters.output.httpClient
+import com.braiso_22.terracambio.listing.infrastructure.adapters.output.providers.FakeLocationProvider
+import com.braiso_22.terracambio.listing.infrastructure.adapters.output.repository.InMemoryListingRepository
+import com.braiso_22.terracambio.listing.application.input.addListing.AddListing
+import com.braiso_22.terracambio.listing.application.input.getListings.GetListings
+import com.braiso_22.terracambio.listing.application.input.getLocationByCadastralCode.GetLocationByCadastralCode
+import com.braiso_22.terracambio.listing.application.output.ListingRepository
+import com.braiso_22.terracambio.listing.application.output.LocationProvider
 import io.ktor.client.HttpClient
 import org.springframework.context.support.beans
 
@@ -24,8 +21,8 @@ fun beans() = beans {
     bean<GetListings> {
         GetListings(listingRepository = ref())
     }
-    bean<ValidateCadastralCode> {
-        ValidateCadastralCode(
+    bean<GetLocationByCadastralCode> {
+        GetLocationByCadastralCode(
             locationProvider = ref()
         )
     }

@@ -12,7 +12,7 @@ kotlin {
     androidLibrary {
         namespace = "com.github.braiso_22.listing"
         compileSdk = 36
-        minSdk = 31
+        minSdk = 24
 
         withHostTestBuilder {
         }
