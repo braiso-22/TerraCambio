@@ -1,96 +1,117 @@
-# TerraCambio(UI + API)
+# TerraCambio 🌍⚡️
 
-A Kotlin Compose + Spring Boot API for TerraCambio. This repository contains a minimal, clean architecture-style setup (ports and adapters/hexagonal) for a Listing feature, plus Springdoc OpenAPI for interactive API docs.
+A **Kotlin Compose + Spring Boot API** for TerraCambio.
+This repository contains a minimal, clean architecture-style setup (ports and adapters/hexagonal) for a **Listing** feature, plus **Springdoc OpenAPI** for interactive API docs 📑🔍
 
+---
 
-## Targets
+## 🎯 Targets
 
-This is a Kotlin Multiplatform project targeting Android, iOS, Web, Desktop and Server (JVM).
+This is a **Kotlin Multiplatform** project targeting:
+📱 Android · 🍏 iOS · 🌐 Web · 💻 Desktop · 🖥️ Server (JVM)
 
-* [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./composeApp/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./composeApp/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./composeApp/src/jvmMain/kotlin)
-    folder is the appropriate location.
+* **[/composeApp](./composeApp/src)** 🧩 — Shared UI code across Compose Multiplatform apps.
 
-* [/iosApp](./iosApp/iosApp) contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform,
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+  * **[commonMain](./composeApp/src/commonMain/kotlin)** 🔄 — Code shared by all platforms.
+  * Platform-specific folders (e.g. \[iosMain], \[jvmMain]) handle native integrations.
 
-* [/shared](./shared/src) is for the code that will be shared between all targets in the project.
-  The most important subfolder is [commonMain](./shared/src/commonMain/kotlin). If preferred, you
-  can add code to the platform-specific folders here too.
-* [/listing](./listing/src/commonMain/kotlin/com/github/braiso_22/listing) is a KMP module for the shared domain logic of the listings to use it in the backend and the front
-* [/server](./server/src/main/kotlin/com/braiso_22/terracambio) is the API in springboot
+* **[/iosApp](./iosApp/iosApp)** 🍏 — Entry point for iOS app (needed even with Compose Multiplatform). Can also include SwiftUI code.
 
-## Build commands
+* **[/shared](./shared/src)** 📦 — Business logic shared across all targets.
 
-### Build and Run Server
+  * **[commonMain](./shared/src/commonMain/kotlin)** — Core shared code.
 
-To build and run the development version of the server, use the run configuration from the run widget
-in your IDE’s toolbar or run it directly from the terminal:
-- on macOS/Linux
-  ```shell
+* **[/listing](./listing/src/commonMain/kotlin/com/github/braiso_22/listing)** 📋 — KMP module for listing domain logic, used in backend + frontend.
+
+* **[/server](./server/src/main/kotlin/com/braiso_22/terracambio)** ⚙️ — Spring Boot API layer.
+
+---
+
+## 📖 API Documentation (Swagger UI)
+
+Once the server is running, open:
+👉 [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+
+Provided by **springdoc-openapi** for exploring available controllers interactively 🎛️
+
+---
+
+## 🛠️ Build commands
+
+### ▶️ Run Server
+
+* macOS/Linux 🐧
+
+  ```sh
   ./gradlew :server:run
   ```
-- on Windows
-  ```shell
+* Windows 🪟
+
+  ```sh
   .\gradlew.bat :server:run
   ```
 
-### Build and Run Android Application
+---
 
-To build and run the development version of the Android app, use the run configuration from the run widget
-in your IDE’s toolbar or build it directly from the terminal:
-- on macOS/Linux
-  ```shell
+### 📱 Run Android App
+
+* macOS/Linux 🐧
+
+  ```sh
   ./gradlew :composeApp:assembleDebug
   ```
-- on Windows
-  ```shell
+* Windows 🪟
+
+  ```sh
   .\gradlew.bat :composeApp:assembleDebug
   ```
 
-### Build and Run Desktop (JVM) Application
+---
 
-To build and run the development version of the desktop app, use the run configuration from the run widget
-in your IDE’s toolbar or run it directly from the terminal:
-- on macOS/Linux
-  ```shell
+### 💻 Run Desktop (JVM) App
+
+* macOS/Linux 🐧
+
+  ```sh
   ./gradlew :composeApp:run
   ```
-- on Windows
-  ```shell
+* Windows 🪟
+
+  ```sh
   .\gradlew.bat :composeApp:run
   ```
 
-### Build and Run Web Application
+---
 
-To build and run the development version of the web app, use the run configuration from the run widget
-in your IDE’s toolbar or run it directly from the terminal:
-1. Install [Node.js](https://nodejs.org/en/download) (which includes `npm`)
-2. Build Kotlin/JS shared code:
-   - on macOS/Linux
-     ```shell
+### 🌐 Run Web App
+
+1. Install [Node.js](https://nodejs.org/en/download) 📦
+2. Build Kotlin/JS shared code
+
+   * macOS/Linux 🐧
+
+     ```sh
      ./gradlew :shared:jsBrowserDevelopmentLibraryDistribution
      ```
-   - on Windows
-     ```shell
+   * Windows 🪟
+
+     ```sh
      .\gradlew.bat :shared:jsBrowserDevelopmentLibraryDistribution
      ```
-3. Build and run the web application
-   ```shell
+3. Run the web app 🚀
+
+   ```sh
    npm install
    npm run start
    ```
 
-### Build and Run iOS Application
+---
 
-To build and run the development version of the iOS app, use the run configuration from the run widget
-in your IDE’s toolbar or open the [/iosApp](./iosApp) directory in Xcode and run it from there.
+### 🍏 Run iOS App
+
+Open **[/iosApp](./iosApp)** in **Xcode** and run it directly ▶️
 
 ---
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+✨ Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+
