@@ -5,7 +5,7 @@
     <string name="cadastral_code">Cadastral code</string>
     <string name="listing_name">Listing name</string>
     <string name="transaction_type">Transaction type</string>
-    <string name="cadastral_code_requirement">Must be a value 14 characters long</string>
+    <string name="cadastral_code_requirement">Must be a value 14, 18 or 20 characters long</string>
     <string name="cadastral_code_not_found">Cadastral code not found</string>
     <string name="sell_transaction_type">Sell</string>
     <string name="rent_transaction_type">Rent</string>
@@ -14,7 +14,9 @@
     <string name="cant_be_empty">Can't be empty</string>
     <string name="new_listing">New Listing</string>
     <string name="save">Save</string>
-    <string name="bad_format">Bad format</string>
+    <string name="bad_name">Invalid name</string>
+    <string name="bad_cadastral_code">Invalid cadastral code</string>
+    <string name="bad_transactions">No transaction selected or without correct price</string>
     <string name="could_not_create">Couldn't create the listing</string>
     <string name="listing_created">Listing created</string>
     <string name="invalid_price">Invalid price</string>

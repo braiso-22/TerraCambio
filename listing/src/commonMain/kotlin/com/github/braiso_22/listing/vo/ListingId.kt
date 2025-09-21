@@ -6,4 +6,9 @@ import kotlin.uuid.Uuid
 
 
 @JvmInline
-value class ListingId @OptIn(ExperimentalUuidApi::class) constructor(val value: Uuid)
+value class ListingId @OptIn(ExperimentalUuidApi::class) constructor(val value: Uuid) {
+    companion object {
+        @OptIn(ExperimentalUuidApi::class)
+        val example = ListingId(Uuid.random())
+    }
+}

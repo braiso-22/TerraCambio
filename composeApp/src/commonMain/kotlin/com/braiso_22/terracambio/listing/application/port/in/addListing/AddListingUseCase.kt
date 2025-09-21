@@ -1,4 +1,4 @@
-package com.braiso_22.terracambio.listing.application.port.`in`
+package com.braiso_22.terracambio.listing.application.port.`in`.addListing
 
 import com.braiso_22.terracambio.listing.application.port.out.dtos.AddListingResponse
 import com.braiso_22.terracambio.listing.application.port.out.ListingLocalDataSource

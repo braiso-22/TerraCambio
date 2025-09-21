@@ -5,7 +5,7 @@ import com.braiso_22.terracambio.listing.infrastructure.adapters.output.provider
 import com.braiso_22.terracambio.listing.infrastructure.adapters.output.repository.InMemoryListingRepository
 import com.braiso_22.terracambio.listing.application.input.addListing.AddListing
 import com.braiso_22.terracambio.listing.application.input.getListings.GetListings
-import com.braiso_22.terracambio.listing.application.input.validateCadastralCode.ValidateCadastralCode
+import com.braiso_22.terracambio.listing.application.input.getLocationByCadastralCode.GetLocationByCadastralCode
 import com.braiso_22.terracambio.listing.application.output.ListingRepository
 import com.braiso_22.terracambio.listing.application.output.LocationProvider
 import io.ktor.client.HttpClient
@@ -21,8 +21,8 @@ fun beans() = beans {
     bean<GetListings> {
         GetListings(listingRepository = ref())
     }
-    bean<ValidateCadastralCode> {
-        ValidateCadastralCode(
+    bean<GetLocationByCadastralCode> {
+        GetLocationByCadastralCode(
             locationProvider = ref()
         )
     }

@@ -3,10 +3,10 @@ package com.braiso_22.terracambio.listing.infrastructure.adapters.input.springbo
 import com.braiso_22.terracambio.listing.application.input.addListing.AddListing
 import com.braiso_22.terracambio.listing.application.input.addListing.AddListingCommand
 import com.braiso_22.terracambio.listing.application.input.addListing.AddListingResult
-import com.braiso_22.terracambio.listing.application.input.validateCadastralCode.ValidateCadastralCodeCommand
-import com.braiso_22.terracambio.listing.application.input.validateCadastralCode.ValidateCadastralCodeResult
 import com.braiso_22.terracambio.listing.application.input.getListings.GetListings
-import com.braiso_22.terracambio.listing.application.input.validateCadastralCode.ValidateCadastralCode
+import com.braiso_22.terracambio.listing.application.input.getLocationByCadastralCode.GetLocationByCadastralCode
+import com.braiso_22.terracambio.listing.application.input.getLocationByCadastralCode.GetLocationByCadastralCodeQuery
+import com.braiso_22.terracambio.listing.application.input.getLocationByCadastralCode.GetLocationByCadastralCodeResult
 import com.github.braiso_22.listing.vo.CadastralCode
 import com.github.braiso_22.listing.vo.ListingName
 import com.github.braiso_22.listing.vo.ListingTransactions
@@ -24,7 +24,7 @@ import kotlin.uuid.Uuid
 class ListingController(
     private val getListings: GetListings,
     private val addListing: AddListing,
-    private val validateCadastralCode: ValidateCadastralCode,
+    private val getLocationByCadastralCode: GetLocationByCadastralCode,
 ) {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
 
@@ -39,24 +39,24 @@ class ListingController(
     }
 
     @OptIn(ExperimentalUuidApi::class)
-    @GetMapping("validate-cadastral-code/{code}")
-    suspend fun validateCadastralCode(@PathVariable code: String): ResponseEntity<Any> {
-
-        val command = try{
-            ValidateCadastralCodeCommand(CadastralCode(code))
-        } catch (e: IllegalArgumentException){
+    @GetMapping("location/{cadastralCode}")
+    suspend fun getLocationByCadastralCode(@PathVariable cadastralCode: String): ResponseEntity<Any> {
+        val cadastralCode = try {
+            CadastralCode(cadastralCode)
+        } catch (e: IllegalArgumentException) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.message)
         }
+        val command = GetLocationByCadastralCodeQuery(cadastralCode)
 
-        val codeResult = validateCadastralCode(command)
+        val codeResult = getLocationByCadastralCode(command)
 
         return when (codeResult) {
-            ValidateCadastralCodeResult.NotFound -> {
+            GetLocationByCadastralCodeResult.NotFound -> {
                 ResponseEntity.status(HttpStatus.NOT_FOUND).body("Code not found")
             }
 
-            ValidateCadastralCodeResult.Valid -> {
-                ResponseEntity.status(HttpStatus.NO_CONTENT).build()
+            is GetLocationByCadastralCodeResult.Valid -> {
+                ResponseEntity.ok(LocationDto.fromDomain(codeResult.location))
             }
         }
     }

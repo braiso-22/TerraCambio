@@ -8,6 +8,7 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.braiso_22.terracambio.listing.presentation.newListingPanel.CadastralCodeState
@@ -58,27 +59,33 @@ fun CadastralCodeComp(
                 )
             },
             trailingIcon = {
-                when (state) {
-                    is CadastralCodeState.Pristine -> {
-                        null
-                    }
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Text(state.value.length.toString())
+                    when (state) {
+                        is CadastralCodeState.Pristine -> {
+                            null
+                        }
 
-                    is CadastralCodeState.Loading -> {
-                        CircularProgressIndicator(
-                            color = LocalContentColor.current,
-                            strokeWidth = 2.dp,
-                            modifier = Modifier.size(24.dp),
-                        )
-                    }
+                        is CadastralCodeState.Loading -> {
+                            CircularProgressIndicator(
+                                color = LocalContentColor.current,
+                                strokeWidth = 2.dp,
+                                modifier = Modifier.size(24.dp),
+                            )
+                        }
 
-                    is CadastralCodeState.Valid -> {
-                        Icon(Icons.Default.Check, null)
-                    }
+                        is CadastralCodeState.Valid -> {
+                            Icon(Icons.Default.Check, null)
+                        }
 
-                    is CadastralCodeState.InvalidFormat, is CadastralCodeState.NotFound -> {
-                        Icon(Icons.Default.Error, null)
+                        is CadastralCodeState.InvalidFormat, is CadastralCodeState.NotFound -> {
+                            Icon(Icons.Default.Error, null)
+                        }
                     }
-
+                    Spacer(modifier = Modifier.padding(4.dp))
                 }
             },
             modifier = Modifier.fillMaxWidth()

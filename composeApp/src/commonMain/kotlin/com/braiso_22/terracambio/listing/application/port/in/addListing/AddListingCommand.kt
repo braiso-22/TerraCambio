@@ -1,4 +1,4 @@
-package com.braiso_22.terracambio.listing.application.port.`in`
+package com.braiso_22.terracambio.listing.application.port.`in`.addListing
 
 import com.github.braiso_22.listing.vo.CadastralCode
 import com.github.braiso_22.listing.vo.ListingName

@@ -66,6 +66,7 @@ fun ListingTransactions.toDto(): List<TransactionDto> {
 data class LocationDto(
     val latitude: Double,
     val longitude: Double,
+    val cadastralCode: String,
     val name: String,
 ) {
     companion object {
@@ -74,6 +75,7 @@ data class LocationDto(
             return LocationDto(
                 latitude = geoLocation.latitude.value,
                 longitude = geoLocation.longitude.value,
+                cadastralCode = location.cadastralCode.value,
                 name = location.name
             )
         }

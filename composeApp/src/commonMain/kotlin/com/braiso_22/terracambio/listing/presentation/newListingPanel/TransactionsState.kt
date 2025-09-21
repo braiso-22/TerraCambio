@@ -1,6 +1,7 @@
 package com.braiso_22.terracambio.listing.presentation.newListingPanel
 
 import androidx.compose.runtime.Stable
+import com.github.braiso_22.listing.vo.CadastralCode
 import com.github.braiso_22.listing.vo.ListingTransactions
 import com.github.braiso_22.listing.vo.Money
 import com.github.braiso_22.listing.vo.TransactionType
@@ -26,6 +27,25 @@ data class TransactionsState(
 
         return ListingTransactions(transactions)
     }
+
+    fun areValidTransactions(): Boolean {
+        return runCatching { this.toDomain() }.getOrNull() != null
+    }
+
+    fun withPristineAsError(): TransactionsState {
+        return this.copy(
+            sellTransactionInfo = if (this.sellTransactionInfo is PriceTransactionState.Pristine) {
+                PriceTransactionState.InvalidPrice("")
+            } else {
+                this.sellTransactionInfo
+            },
+            rentTransactionInfo = if (this.rentTransactionInfo is PriceTransactionState.Pristine) {
+                PriceTransactionState.InvalidPrice("")
+            } else {
+                this.rentTransactionInfo
+            }
+        )
+    }
 }
 
 const val centsInCurrency = 100
@@ -43,11 +63,16 @@ sealed interface PriceTransactionState {
         }
     }
 
+    data object Pristine : Enabled(price = "")
     data class ValidPrice(override val price: String) : Enabled(price = price)
     data class InvalidPrice(override val price: String) : Enabled(price = price)
 }
 
 sealed class CadastralCodeState(open val value: String) {
+    fun isValidCode(): Boolean {
+        return runCatching { CadastralCode(this.value) }.getOrNull() != null
+    }
+
     data object Pristine : CadastralCodeState("")
     data class Loading(override val value: String) : CadastralCodeState(value)
     data class Valid(override val value: String) : CadastralCodeState(value)

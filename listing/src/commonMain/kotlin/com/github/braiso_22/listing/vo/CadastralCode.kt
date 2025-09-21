@@ -9,4 +9,8 @@ value class CadastralCode(val value: String) {
             "Cadastral code length must be of 14, 18 or 20"
         }
     }
+
+    companion object{
+        val example = CadastralCode("12312312312312")
+    }
 }

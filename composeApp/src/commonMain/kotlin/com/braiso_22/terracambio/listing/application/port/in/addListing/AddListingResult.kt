@@ -1,4 +1,4 @@
-package com.braiso_22.terracambio.listing.application.port.`in`
+package com.braiso_22.terracambio.listing.application.port.`in`.addListing
 
 sealed interface AddListingResult {
     data object Success : AddListingResult
