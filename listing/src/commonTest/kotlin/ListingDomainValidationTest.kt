@@ -21,9 +21,7 @@ import kotlin.uuid.Uuid
 class ListingDomainValidationTest {
 
     @Test
-    fun `money allows zero and positive values`() {
-        // zero
-        Money(0)
+    fun `money allows only positive values`() {
         // positive
         Money(1500)
     }
@@ -31,6 +29,11 @@ class ListingDomainValidationTest {
     @Test
     fun `money rejects negative values`() {
         assertFailsWith<IllegalArgumentException> { Money(-1) }
+    }
+
+    @Test
+    fun `money rejects 0`() {
+        assertFailsWith<IllegalArgumentException> { Money(0) }
     }
 
     @Test
@@ -146,7 +149,7 @@ class ListingDomainValidationTest {
 
     @OptIn(ExperimentalUuidApi::class)
     @Test
-    fun `listing buy and rent accept non-negative money`() {
+    fun `listing buy and rent accept money bigger than 0`() {
         val id = ListingId(Uuid.random())
         val name = ListingName("With price")
         val owner = OwnerId(Uuid.random())
@@ -156,7 +159,7 @@ class ListingDomainValidationTest {
             cadastralCode = CadastralCode("15009A00200071"),
         )
         val buy = TransactionType.Buy(Money(1999))
-        val rent = TransactionType.Rent(Money(0))
+        val rent = TransactionType.Rent(Money(1))
         val l =
             Listing(
                 id = id,
@@ -170,7 +173,6 @@ class ListingDomainValidationTest {
 
     @Test
     fun `money toDecimal converts cents to decimal correctly`() {
-        assertEquals(0.0, Money(0).toDecimal(), 1e-9)
         assertEquals(0.01, Money(1).toDecimal(), 1e-9)
         assertEquals(19.99, Money(1999).toDecimal(), 1e-9)
         assertEquals(2.0, Money(200).toDecimal(), 1e-9)
