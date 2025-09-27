@@ -39,14 +39,13 @@ class MoneyTests {
         )
         val buy = TransactionType.Buy(Money(1999))
         val rent = TransactionType.Rent(Money(1))
-        val l =
-            Listing(
-                id = id,
-                name = name,
-                listingTransactions = ListingTransactions(setOf(buy, rent)),
-                location = loc,
-                ownerId = owner
-            )
+        val l = Listing(
+            id = id,
+            name = name,
+            listingTransactions = ListingTransactions(setOf(buy, rent)),
+            location = loc,
+            ownerId = owner
+        )
         assertEquals(2, l.listingTransactions.values.size)
     }
 

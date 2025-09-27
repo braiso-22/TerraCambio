@@ -73,4 +73,11 @@ class LocationTests {
             )
         }
     }
+
+    @Test
+    fun `Cadastral code accepts 14, 18 and 20 length values`() {
+        CadastralCode("12345123451234") // 14
+        CadastralCode("123451234512345678") // 18
+        CadastralCode("12345123451234512345") // 20
+    }
 }
