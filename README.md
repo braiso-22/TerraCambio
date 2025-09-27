@@ -5,7 +5,17 @@ This repository contains a minimal, clean architecture-style setup (ports and ad
 
 ---
 
-## 🎯 Targets
+## Structure 
+
+I created this project as a mono repo [KMP project](https://kotlinlang.org/docs/multiplatform.html)
+
+The domain logic and its tests is in its own KMP module at [Listing](./listing) and then I have code for each target
+
+### Listing folders
+- [Domain code](./listing/src/commonMain/kotlin/com/github/braiso_22/listing) 📊
+- [Tests](./listing/src/commonTest/kotlin) 🧐
+
+### 🎯 Targets
 
 This is a **Kotlin Multiplatform** project targeting:
 📱 Android · 🍏 iOS · 🌐 Web · 💻 Desktop · 🖥️ Server (JVM)
@@ -20,8 +30,6 @@ This is a **Kotlin Multiplatform** project targeting:
 * **[/shared](./shared/src)** 📦 — Business logic shared across all targets.
 
   * **[commonMain](./shared/src/commonMain/kotlin)** — Core shared code.
-
-* **[/listing](./listing/src/commonMain/kotlin/com/github/braiso_22/listing)** 📋 — KMP module for listing domain logic, used in backend + frontend.
 
 * **[/server](./server/src/main/kotlin/com/braiso_22/terracambio)** ⚙️ — Spring Boot API layer.
 
