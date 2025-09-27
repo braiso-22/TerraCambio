@@ -94,12 +94,12 @@ Provided by **springdoc-openapi** for exploring available controllers interactiv
 * macOS/Linux 🐧
 
   ```sh
-  ./gradlew :composeApp:run
+  ./gradlew :composeApp:jvmRun -DmainClass=com.braiso_22.terracambio.MainKt --quiet
   ```
 * Windows 🪟
 
   ```sh
-  .\gradlew.bat :composeApp:run
+  .\gradlew.bat :composeApp:jvmRun -DmainClass=com.braiso_22.terracambio.MainKt --quiet
   ```
 
 ---
