@@ -46,6 +46,19 @@ Provided by **springdoc-openapi** for exploring available controllers interactiv
 
 ## 🛠️ Build commands
 
+### 🎯 Run the tests
+* macOS/Linux 🐧
+
+  ```sh
+  ./gradlew :listing:jvmTest --rerun-tasks
+  ```
+* Windows 🪟
+
+  ```sh
+  .\gradlew.bat :listing:jvmTest --rerun-tasks
+  ```
+
+
 ### ▶️ Run Server
 
 * macOS/Linux 🐧
