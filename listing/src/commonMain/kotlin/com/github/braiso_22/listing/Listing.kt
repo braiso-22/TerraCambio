@@ -1,15 +1,21 @@
 package com.github.braiso_22.listing
 
-import com.github.braiso_22.listing.vo.ListingId
-import com.github.braiso_22.listing.vo.ListingName
-import com.github.braiso_22.listing.vo.ListingTransactions
-import com.github.braiso_22.listing.vo.Location
-import com.github.braiso_22.listing.vo.OwnerId
+import com.github.braiso_22.listing.vo.*
 
-data class Listing (
+data class Listing(
     val id: ListingId,
     val name: ListingName,
     val listingTransactions: ListingTransactions,
     val location: Location,
-    val ownerId: OwnerId
-)
+    val ownerId: OwnerId,
+) {
+    companion object {
+        fun example(ownerId: OwnerId) = Listing(
+            ListingId.example,
+            ListingName.example,
+            ListingTransactions.buyExample,
+            Location.example,
+            ownerId
+        )
+    }
+}
