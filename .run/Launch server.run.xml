@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+    <configuration name="Launch server" default="false" type="JetRunConfigurationType">
+        <option name="MAIN_CLASS_NAME"
+            value="com.braiso_22.terracambio.TerracambioApiApplicationKt" />
+        <module name="TerraCambio.server.main" />
+        <shortenClasspath name="NONE" />
+        <method v="2">
+            <option name="Make" enabled="true" />
+        </method>
+    </configuration>
+</component>
