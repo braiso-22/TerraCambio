@@ -13,4 +13,8 @@ value class ListingTransactions(val values: Set<TransactionType>) {
     init {
         require(values.isNotEmpty()) { "Listing must have at least one listing type" }
     }
+
+    companion object {
+        val buyExample = ListingTransactions(setOf(TransactionType.Buy(Money(100_000_00))))
+    }
 }

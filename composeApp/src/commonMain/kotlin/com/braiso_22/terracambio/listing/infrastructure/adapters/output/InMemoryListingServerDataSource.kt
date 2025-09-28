@@ -8,20 +8,32 @@ import com.github.braiso_22.listing.vo.ListingId
 import com.github.braiso_22.listing.vo.Location
 import kotlin.uuid.ExperimentalUuidApi
 
-class InMemoryListingServerDataSource : ListingServerDataSource {
+enum class ListingServerResult {
+    SUCCESS, BAD_COMMAND, FAILURE
+}
+
+class InMemoryListingServerDataSource(
+    val result: ListingServerResult,
+) : ListingServerDataSource {
     var listings = mutableListOf<AddListingServerDto>()
 
     @OptIn(ExperimentalUuidApi::class)
     override suspend fun addListing(listing: AddListingServerDto): AddListingResponse {
         listings.add(listing)
-        return AddListingResponse.Success(
-            listing = Listing(
-                id = ListingId.example,
-                name = listing.name,
-                listingTransactions = listing.listingTransactions,
-                location = Location.example,
-                ownerId = listing.ownerId
+
+        return when (result) {
+            ListingServerResult.SUCCESS -> AddListingResponse.Success(
+                listing = Listing(
+                    id = ListingId.example,
+                    name = listing.name,
+                    listingTransactions = listing.listingTransactions,
+                    location = Location.example,
+                    ownerId = listing.ownerId
+                )
             )
-        )
+
+            ListingServerResult.BAD_COMMAND -> AddListingResponse.BadCommand("Bad command")
+            ListingServerResult.FAILURE -> AddListingResponse.CadastralCodeNotFound
+        }
     }
 }

@@ -10,22 +10,12 @@ import com.braiso_22.terracambio.listing.application.port.`in`.ValidateCadastral
 import com.braiso_22.terracambio.listing.application.port.`in`.addListing.AddListing
 import com.braiso_22.terracambio.listing.application.port.`in`.addListing.AddListingCommand
 import com.braiso_22.terracambio.listing.application.port.`in`.addListing.AddListingResult
-import com.braiso_22.terracambio.listing.infrastructure.adapters.output.FakeLocationProvider
-import com.braiso_22.terracambio.listing.infrastructure.adapters.output.FakeUserLocalDataSource
-import com.braiso_22.terracambio.listing.infrastructure.adapters.output.InMemoryListingLocalDataSource
-import com.braiso_22.terracambio.listing.infrastructure.adapters.output.InMemoryListingServerDataSource
+import com.braiso_22.terracambio.listing.infrastructure.adapters.output.*
 import com.braiso_22.terracambio.listing.presentation.newListingPanel.newListingForm.NewListingUserInteractions
 import com.github.braiso_22.listing.vo.CadastralCode
 import com.github.braiso_22.listing.vo.ListingName
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class NewListingPanelViewModel(
@@ -225,7 +215,9 @@ val mainViewModelFactory = viewModelFactory {
         NewListingPanelViewModel(
             addListing = AddListing(
                 listingLocalDataSource = InMemoryListingLocalDataSource(),
-                listingServerDataSource = InMemoryListingServerDataSource(),
+                listingServerDataSource = InMemoryListingServerDataSource(
+                    ListingServerResult.SUCCESS
+                ),
                 userLocalDataSource = FakeUserLocalDataSource(),
             ),
             validateCadastralCode = ValidateCadastralCode(

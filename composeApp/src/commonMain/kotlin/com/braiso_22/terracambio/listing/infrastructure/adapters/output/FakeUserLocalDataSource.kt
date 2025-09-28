@@ -8,6 +8,6 @@ import kotlin.uuid.Uuid
 class FakeUserLocalDataSource: UserLocalDataSource {
     @OptIn(ExperimentalUuidApi::class)
     override suspend fun getUserId(): UserId {
-        return UserId(Uuid.random())
+        return UserId(Uuid.parse("123e4567-e89b-12d3-a456-426614174000"))
     }
 }
