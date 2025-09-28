@@ -20,8 +20,10 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.braiso_22.terracambio.listing.presentation.mapListings.MapListingItem
 import com.braiso_22.terracambio.listing.presentation.mapListings.MapPanel
+import com.braiso_22.terracambio.listing.presentation.myListings.MyListingsPanel
 import com.braiso_22.terracambio.listing.presentation.newListingPanel.NewListingPanel
 import com.braiso_22.terracambio.listing.presentation.newListingPanel.NewListingUiEvent
+import com.github.braiso_22.listing.vo.Location
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import org.jetbrains.compose.resources.stringResource
@@ -85,7 +87,8 @@ fun Navigation(
     val scope = rememberCoroutineScope()
     ModalNavigationDrawer(
         drawerState = drawerState,
-        gesturesEnabled = selectedDestination != Screen.AllListings || drawerState.isOpen,
+        gesturesEnabled = (selectedDestination != Screen.AllListings
+                && selectedDestination != Screen.MyListings) || drawerState.isOpen,
         drawerContent = {
             ModalDrawerSheet {
                 NavigationDrawerItem(
@@ -199,7 +202,9 @@ fun Navigation(
                 startDestination = startDestination
             ) {
                 composable<Screen.MyListings> {
-                    // TODO: MyListings
+                    MyListingsPanel(
+                        modifier = Modifier.padding(8.dp)
+                    )
                 }
                 composable<Screen.NewListing> {
                     val badName = stringResource(Res.string.bad_name)
@@ -232,6 +237,8 @@ fun Navigation(
                 }
                 composable<Screen.AllListings> {
                     MapPanel(
+                        originPlace = Location.example,
+                        onClickMap = {},
                         listings = List(10) {
                             MapListingItem(
                                 id = Uuid.random(),

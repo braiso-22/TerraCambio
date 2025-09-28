@@ -6,25 +6,42 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import com.github.braiso_22.listing.vo.Location
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.*
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-@OptIn(markerClass = [ExperimentalUuidApi::class])
+
+@OptIn(ExperimentalUuidApi::class)
 @Composable
 actual fun MapPanel(
+    originPlace: Location,
     listings: List<MapListingItem>,
+    onClickMap: () -> Unit,
     onClickListing: (Uuid) -> Unit,
     modifier: Modifier,
 ) {
-    val originPlace = LatLng(43.1975400841553, -8.22239179787197)
+
+    val originPlace = LatLng(
+        originPlace.geoLocation.latitude.value,
+        originPlace.geoLocation.longitude.value
+    )
+
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(originPlace, 10f)
+    }
+
+    LaunchedEffect(originPlace) {
+        cameraPositionState.position = CameraPosition.fromLatLngZoom(
+            originPlace,
+            cameraPositionState.position.zoom
+        )
     }
 
     val properties = remember {
@@ -36,11 +53,13 @@ actual fun MapPanel(
     val uiSettings = remember {
         MapUiSettings()
     }
+
     GoogleMap(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier,
         cameraPositionState = cameraPositionState,
         properties = properties,
-        uiSettings = uiSettings
+        uiSettings = uiSettings,
+        onMapClick = { onClickMap() }
     ) {
         listings.map { listing ->
             Marker(
@@ -70,7 +89,9 @@ private fun MapPanelPreview() {
                     .fillMaxSize()
             ) {
                 MapPanel(
+                    originPlace = Location.example,
                     listings = emptyList(),
+                    onClickMap = {},
                     onClickListing = {},
                     modifier = Modifier
                 )

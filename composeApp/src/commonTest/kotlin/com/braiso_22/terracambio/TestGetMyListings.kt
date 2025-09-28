@@ -38,7 +38,7 @@ class TestGetMyListings {
     fun `Returns empty when no listings for currentUser`() = runTest {
         // Add a listing with a different ownerId
         listingLocalDataSource.addListing(
-            Listing.example(OwnerId(Uuid.random()))
+            Listing.exampleWithOwner(OwnerId(Uuid.random()))
         )
 
         val myListings = getMyListings()
@@ -51,7 +51,7 @@ class TestGetMyListings {
         // Add a listing with a same ownerId
         val id = userLocalDataSource.getUserId()
         listingLocalDataSource.addListing(
-            Listing.example(OwnerId(id.value))
+            Listing.exampleWithOwner(OwnerId(id.value))
         )
 
         val myListings = getMyListings()

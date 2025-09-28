@@ -16,5 +16,14 @@ value class ListingTransactions(val values: Set<TransactionType>) {
 
     companion object {
         val buyExample = ListingTransactions(setOf(TransactionType.Buy(Money(100_000_00))))
+        val rentExample = ListingTransactions(setOf(TransactionType.Rent(Money(500_00))))
+        val switchExample = ListingTransactions(setOf(TransactionType.Switch))
+        val allExample = ListingTransactions(
+            setOf(
+                TransactionType.Buy(Money(100_000_00)),
+                TransactionType.Rent(Money(500_00)),
+                TransactionType.Switch
+            )
+        )
     }
 }
