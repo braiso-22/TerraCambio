@@ -13,6 +13,10 @@
     <string name="price_in_euros">Price in euros</string>
     <string name="cant_be_empty">Can't be empty</string>
     <string name="new_listing">New Listing</string>
+    <string name="listing_map">Listing map</string>
+    <string name="chat">Chat</string>
+    <string name="my_listings">My listings</string>
+    <string name="profile">Profile</string>
     <string name="save">Save</string>
     <string name="bad_name">Invalid name</string>
     <string name="bad_cadastral_code">Invalid cadastral code</string>

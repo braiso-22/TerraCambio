@@ -14,6 +14,10 @@
     <string name="price_in_euros">Precio en euros</string>
     <string name="cant_be_empty">No puede estar vacío</string>
     <string name="new_listing">Nuevo anuncio</string>
+    <string name="listing_map">Mapa de anuncios</string>
+    <string name="chat">Chat</string>
+    <string name="profile">Perfil</string>
+    <string name="my_listings">Mis anuncios</string>
     <string name="save">Guardar</string>
     <string name="bad_name">Nombre no válido</string>
     <string name="bad_cadastral_code">Referencia catastral no válida</string>

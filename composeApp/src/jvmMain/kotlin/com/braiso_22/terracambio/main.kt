@@ -1,17 +1,13 @@
 package com.braiso_22.terracambio
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import com.braiso_22.terracambio.listing.presentation.newListingPanel.NewListingPanel
+import com.braiso_22.terracambio.listing.presentation.navigation.Navigation
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 fun main() = application {
@@ -31,16 +27,7 @@ fun AppDesktop() {
         Surface(
             modifier = Modifier.fillMaxSize()
         ) {
-            // Box will fill the size of the Surface, but it gives its children
-            // loose constraints, allowing them to choose their own size.
-            Box(
-                contentAlignment = Alignment.Center, // Optional: center the panel
-                modifier = Modifier.fillMaxSize()
-            ) {
-                NewListingPanel(
-                    modifier = Modifier.width(500.dp)
-                )
-            }
+            Navigation()
         }
     }
 }

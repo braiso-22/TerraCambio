@@ -15,6 +15,7 @@ junit = "4.13.2"
 kotlin = "2.2.10"
 kotlinx-coroutines = "1.10.2"
 mapsCompose = "6.11.0"
+navigationCompose = "2.9.0"
 spring-framework = "3.5.5"
 spring-dependency-manager = "1.1.7"
 spring-plugin = "1.9.25"
@@ -44,6 +45,7 @@ kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect" }
 kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlin-coroutines-reactor = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactor", version.ref = "kotlinx-coroutines" }
 maps-compose = { module = "com.google.maps.android:maps-compose", version.ref = "mapsCompose" }
+navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 springboot-dev-tools = { module = "org.springframework.boot:spring-boot-devtools" }
 springboot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
 springboot-starter-webflux = { module = "org.springframework.boot:spring-boot-starter-webflux" }
