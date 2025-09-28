@@ -5,6 +5,13 @@ This repository contains a minimal, clean architecture-style setup (ports and ad
 
 ---
 
+## Recomendation
+
+Open this project from Android Studio latest version for the best development experience, 
+if not using Android Studio you can run the gradlew commands listed in the [Build Commands](#build-commands)
+
+---
+
 ## Structure 
 
 I created this project as a mono repo [KMP project](https://kotlinlang.org/docs/multiplatform.html)
@@ -44,7 +51,7 @@ Provided by **springdoc-openapi** for exploring available controllers interactiv
 
 ---
 
-## 🛠️ Build commands
+## Build commands
 
 ### 🎯 Run the tests
 * macOS/Linux 🐧
