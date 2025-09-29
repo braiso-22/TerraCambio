@@ -11,7 +11,7 @@ class ListingDomainValidationTest {
     @OptIn(ExperimentalUuidApi::class)
     @Test
     fun `listing requires non-blank name and at least one type`() {
-        val id = ListingId.example
+        val id = ListingId.example()
         val name = ListingName("Nice lising")
         val owner = OwnerId(Uuid.random())
         val loc = Location.example
