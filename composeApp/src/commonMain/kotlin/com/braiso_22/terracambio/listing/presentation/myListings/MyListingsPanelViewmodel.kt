@@ -4,6 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.braiso_22.terracambio.listing.application.port.`in`.getMyListings.GetMyListings
+import com.braiso_22.terracambio.listing.application.port.out.dtos.UserId
+import com.braiso_22.terracambio.listing.infrastructure.adapters.output.FakeUserLocalDataSource
+import com.braiso_22.terracambio.listing.infrastructure.adapters.output.InMemoryListingLocalDataSource
 import com.braiso_22.terracambio.listing.presentation.listingList.ListingItem
 import com.braiso_22.terracambio.listing.presentation.mapListings.MapListingItem
 import com.github.braiso_22.listing.Listing
@@ -12,28 +16,12 @@ import kotlinx.coroutines.flow.*
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-class MyListingsPanelViewmodel : ViewModel() {
-
-
-    @OptIn(ExperimentalUuidApi::class)
-    private val ownerId = OwnerId(Uuid.random())
+class MyListingsPanelViewmodel(
+    getMyListings: GetMyListings,
+) : ViewModel() {
 
     @OptIn(ExperimentalUuidApi::class)
-    private val _listings = MutableStateFlow(
-        List(10) {
-            Listing.exampleWithIdAndOwner(
-                id = ListingId(Uuid.random()),
-                ownerId = ownerId
-            ).copy(
-                location = Location.example.copy(
-                    geoLocation = Location.example.geoLocation.copy(
-                        latitude = Latitude(it.toDouble()),
-                        longitude = Longitude(it.toDouble())
-                    )
-                )
-            )
-        }
-    )
+    private val _listings = getMyListings()
 
     @OptIn(ExperimentalUuidApi::class)
     private val _selectedListingId = MutableStateFlow<Uuid?>(null)
@@ -89,8 +77,32 @@ class MyListingsPanelViewmodel : ViewModel() {
     }
 }
 
+@OptIn(ExperimentalUuidApi::class)
 val myListingsViewmodelFactory = viewModelFactory {
     initializer {
-        MyListingsPanelViewmodel()
+        val userId = UserId(Uuid.random())
+        val userDataSource = FakeUserLocalDataSource(userId)
+        val listingDataSource = InMemoryListingLocalDataSource(
+            List(10) {
+                Listing.exampleWithIdAndOwner(
+                    id = ListingId(Uuid.random()),
+                    ownerId = OwnerId(userId.value)
+                ).copy(
+                    location = Location.example.copy(
+                        geoLocation = Location.example.geoLocation.copy(
+                            latitude = Latitude(it.toDouble()),
+                            longitude = Longitude(it.toDouble())
+                        )
+                    )
+                )
+            }
+        )
+
+        MyListingsPanelViewmodel(
+            getMyListings = GetMyListings(
+                userLocalDataSource = userDataSource,
+                listingLocalDataSource = listingDataSource
+            )
+        )
     }
 }

@@ -5,9 +5,9 @@ import com.braiso_22.terracambio.listing.application.port.out.dtos.UserId
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-class FakeUserLocalDataSource: UserLocalDataSource {
+class FakeUserLocalDataSource(private val userId: UserId? = null) : UserLocalDataSource {
     @OptIn(ExperimentalUuidApi::class)
     override suspend fun getUserId(): UserId {
-        return UserId(Uuid.parse("123e4567-e89b-12d3-a456-426614174000"))
+        return userId ?: UserId(Uuid.parse("123e4567-e89b-12d3-a456-426614174000"))
     }
 }

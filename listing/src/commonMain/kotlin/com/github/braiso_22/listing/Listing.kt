@@ -12,7 +12,7 @@ data class Listing(
 ) {
     companion object {
         val example = Listing(
-            ListingId.example,
+            ListingId.example(),
             ListingName.example,
             ListingTransactions.buyExample,
             Location.example,
@@ -20,7 +20,7 @@ data class Listing(
         )
 
         fun exampleWithOwner(ownerId: OwnerId) = Listing(
-            ListingId.example,
+            ListingId.example(),
             ListingName.example,
             ListingTransactions.buyExample,
             Location.example,

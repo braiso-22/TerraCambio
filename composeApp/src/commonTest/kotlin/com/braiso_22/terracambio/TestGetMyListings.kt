@@ -7,6 +7,7 @@ import com.braiso_22.terracambio.listing.infrastructure.adapters.output.FakeUser
 import com.braiso_22.terracambio.listing.infrastructure.adapters.output.InMemoryListingLocalDataSource
 import com.github.braiso_22.listing.Listing
 import com.github.braiso_22.listing.vo.OwnerId
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -29,7 +30,7 @@ class TestGetMyListings {
 
     @Test
     fun `Returns empty when no listings`() = runTest {
-        val myListings = getMyListings()
+        val myListings = getMyListings().first()
         assert(myListings.isEmpty())
     }
 
@@ -41,7 +42,7 @@ class TestGetMyListings {
             Listing.exampleWithOwner(OwnerId(Uuid.random()))
         )
 
-        val myListings = getMyListings()
+        val myListings = getMyListings().first()
         assert(myListings.isEmpty())
     }
 
@@ -54,7 +55,7 @@ class TestGetMyListings {
             Listing.exampleWithOwner(OwnerId(id.value))
         )
 
-        val myListings = getMyListings()
+        val myListings = getMyListings().first()
         assert(myListings.isNotEmpty())
     }
 }

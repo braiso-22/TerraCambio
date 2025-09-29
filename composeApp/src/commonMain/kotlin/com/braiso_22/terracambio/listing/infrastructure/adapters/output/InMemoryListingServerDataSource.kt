@@ -24,7 +24,7 @@ class InMemoryListingServerDataSource(
         return when (result) {
             ListingServerResult.SUCCESS -> AddListingResponse.Success(
                 listing = Listing(
-                    id = ListingId.example,
+                    id = ListingId.example(),
                     name = listing.name,
                     listingTransactions = listing.listingTransactions,
                     location = Location.example,

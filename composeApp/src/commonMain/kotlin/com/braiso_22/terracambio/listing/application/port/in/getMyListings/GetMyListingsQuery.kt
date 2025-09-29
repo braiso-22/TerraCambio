@@ -4,6 +4,9 @@ import com.braiso_22.terracambio.listing.application.port.out.ListingLocalDataSo
 import com.braiso_22.terracambio.listing.application.port.out.UserLocalDataSource
 import com.github.braiso_22.listing.Listing
 import com.github.braiso_22.listing.vo.OwnerId
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.flow
 import kotlin.uuid.ExperimentalUuidApi
 
 
@@ -19,9 +22,9 @@ private class GetMyListingsQuery(
     private val listingLocalDataSource: ListingLocalDataSource,
 ) : GetMyListings {
     @OptIn(ExperimentalUuidApi::class)
-    override suspend fun invoke(): List<Listing> {
-        val userId = userLocalDataSource.getUserId()
+    override fun invoke(): Flow<List<Listing>> = flow {
+        val userId = userLocalDataSource.getUserId() // suspend call
         val ownerId = OwnerId(userId.value)
-        return listingLocalDataSource.getListingsByOwnerId(ownerId)
+        emitAll(listingLocalDataSource.getListingsByOwnerId(ownerId))
     }
 }

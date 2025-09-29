@@ -9,6 +9,6 @@ import kotlin.uuid.Uuid
 value class ListingId @OptIn(ExperimentalUuidApi::class) constructor(val value: Uuid) {
     companion object {
         @OptIn(ExperimentalUuidApi::class)
-        val example = ListingId(Uuid.random())
+        fun example() = ListingId(Uuid.random())
     }
 }
