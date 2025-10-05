@@ -22,59 +22,67 @@ enum class BubbleType {
 @Composable
 fun ColumnScope.ChatBubble(
     type: BubbleType,
-    textLines: List<String>,
+    text: String,
     date: Instant,
     modifier: Modifier = Modifier,
 ) {
-    val bubbleContent: @Composable () -> Unit = {
-        FlowRow(
-            modifier = Modifier.padding(8.dp)
-        ) {
-            textLines.forEachIndexed { index, text ->
-                if (index == textLines.lastIndex) {
-                    FlowRow(
-                        itemVerticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        modifier = Modifier.fillMaxWidth(),
-                    ) {
-                        Text(
-                            text = text,
-                            style = MaterialTheme.typography.bodyMedium,
-                            modifier = Modifier.padding(end = 4.dp)
-                        )
-                        Text(
-                            text = "${date.toLocalDateTime(TimeZone.currentSystemDefault()).hour}:${
-                                date.toLocalDateTime(
-                                    TimeZone.currentSystemDefault()
-                                ).minute.toString().padStart(2, '0')
-                            }",
-                            style = MaterialTheme.typography.bodySmall,
-                            modifier = Modifier
-                        )
-                    }
-                } else {
-                    Text(
-                        text = text,
-                        style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier.padding(end = 4.dp)
-                    )
-                }
-            }
+    val formattedDate = "${date.toLocalDateTime(TimeZone.currentSystemDefault()).hour}:${
+        date.toLocalDateTime(
+            TimeZone.currentSystemDefault()
+        ).minute.toString().padStart(2, '0')
+    }"
 
-        }
+    // I add the formattedDate for hacking the position
+    val textLines = text.split(" ", "\n") + formattedDate
+
+    val containerColor = when (type) {
+        BubbleType.SENT -> MaterialTheme.colorScheme.primaryContainer
+        BubbleType.RECEIVED -> MaterialTheme.colorScheme.secondaryContainer
+    }
+    val contentColor = when (type) {
+        BubbleType.SENT -> MaterialTheme.colorScheme.onPrimaryContainer
+        BubbleType.RECEIVED -> MaterialTheme.colorScheme.onSecondaryContainer
     }
 
-    val _modifier = Modifier
-        .align(
+    Card(
+        modifier = Modifier.align(
             when (type) {
                 BubbleType.SENT -> Alignment.End
                 BubbleType.RECEIVED -> Alignment.Start
             }
+        ).then(modifier),
+        colors = CardDefaults.cardColors(
+            containerColor = containerColor,
+            contentColor = contentColor,
         )
-        .then(modifier)
-    when (type) {
-        BubbleType.SENT -> OutlinedCard(modifier = _modifier) { bubbleContent() }
-        BubbleType.RECEIVED -> Card(modifier = _modifier) { bubbleContent() }
+    ) {
+        Box(
+            modifier = Modifier.padding(8.dp)
+        ) {
+            FlowRow(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                textLines.forEachIndexed { index, text ->
+                    Text(
+                        text = text,
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier,
+                        // last item is the date, has to be same color of container to
+                        // hack the position
+                        color = if (index == textLines.lastIndex)
+                            containerColor
+                        else
+                            contentColor
+                    )
+                    Spacer(modifier = Modifier.padding(2.dp))
+                }
+            }
+            Text(
+                text = formattedDate,
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier.align(Alignment.BottomEnd).padding(end = 2.dp)
+            )
+        }
     }
 }
 
@@ -87,26 +95,31 @@ fun ChatBubblePreview() {
             Column(
                 modifier = Modifier
                     .padding(it)
-                    .fillMaxSize()
+                    .padding(8.dp)
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 ChatBubble(
                     BubbleType.RECEIVED,
-                    listOf(
-                        "Hello, how are you?",
-                        ":("
-                    ),
+                    "cacacacacaca cacacacaca cacacacacaca cacacacaca cacac aprubea",
                     Clock.System.now(),
-                    modifier = Modifier.padding(8.dp).width(250.dp)
+                    modifier = Modifier.width(250.dp)
                 )
                 ChatBubble(
                     BubbleType.SENT,
-                    listOf(
-                        "Hello, how are you?",
-                        "ahahahahahahahahahaf",
-                        "aoaoao", "aaaasdfasdfasjajjfjajfjajfajfajfajf",
-                    ),
+                    """
+                        Hello, how are you? ahahahahahahahahahaf aoaoao a aaaasdfasdfasjajjfjajfjajfajfajf
+                    """.trimIndent(),
                     Clock.System.now(),
-                    modifier = Modifier.padding(8.dp).width(250.dp)
+                    modifier = Modifier.width(250.dp)
+                )
+                ChatBubble(
+                    BubbleType.SENT,
+                    """
+                        Hello, how are you? ahahahahahahahahahaf aoaoao a aaaasdfasdfasjajjfjajfjajfajfajfasd
+                    """.trimIndent(),
+                    Clock.System.now(),
+                    modifier = Modifier.width(250.dp)
                 )
             }
         }
