@@ -39,6 +39,8 @@ kotlin {
             implementation(libs.navigation.compose)
             implementation(projects.shared)
             implementation(projects.listing)
+            implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.7.1")
+
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
