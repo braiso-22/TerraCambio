@@ -1,4 +1,4 @@
-package com.braiso_22.terracambio.listing.presentation.chat
+package com.braiso_22.terracambio.listing.presentation.chat.components.bubble
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
