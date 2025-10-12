@@ -1,5 +1,7 @@
 package com.braiso_22.terracambio.listing.presentation.chat.components.bottombar
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Send
@@ -21,7 +23,18 @@ fun ChatBottomBar(
     onAddImage: () -> Unit,
     onCloseImage: (ImagePreview) -> Unit,
     modifier: Modifier = Modifier,
+    onFocus: () -> Unit = {},
 ) {
+    val source = remember {
+        MutableInteractionSource()
+    }
+
+    val isPressed by source.collectIsPressedAsState()
+
+    LaunchedEffect(isPressed) {
+        onFocus()
+    }
+
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.SpaceBetween
@@ -42,6 +55,7 @@ fun ChatBottomBar(
                 placeholder = {
                     Text("Message")
                 },
+                interactionSource = source,
                 maxLines = 3,
                 modifier = Modifier.fillMaxWidth().padding(8.dp)
             )
@@ -53,7 +67,11 @@ fun ChatBottomBar(
                     }
                 },
                 floatingActionButton = {
-                    FloatingActionButton(onSend) {
+                    FloatingActionButton({
+                        if (text.isNotBlank()) {
+                            onSend()
+                        }
+                    }) {
                         Icon(Icons.AutoMirrored.Filled.Send, "Send message")
                     }
                 },
@@ -91,6 +109,7 @@ private fun ChatBottomBarPreview() {
                     onChangeText = {
                         text = it
                     },
+                    onFocus = {},
                     onAddImage = {
                         images = images + ImagePreview((images.lastIndex + 1).toString())
                     },
