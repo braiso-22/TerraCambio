@@ -25,4 +25,5 @@
     <string name="could_not_create">No se pudo crear el anuncio</string>
     <string name="listing_created">Anuncio creado</string>
     <string name="invalid_price">Precio inválido</string>
+    <string name="add_listing_to_see">Añade un anuncio para verlo aquí</string>
 </resources>

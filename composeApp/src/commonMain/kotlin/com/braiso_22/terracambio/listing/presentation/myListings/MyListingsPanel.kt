@@ -2,7 +2,7 @@ package com.braiso_22.terracambio.listing.presentation.myListings
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -35,12 +35,14 @@ fun MyListingsPanel(
             listings = mapItems,
             onClickMap = viewModel::onDeselectListing,
             onClickListing = viewModel::onSelectListing,
-            modifier = Modifier.height(250.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(0.5f)
         )
         ListingListComp(
             onClickItem = viewModel::onSelectListing,
             listings = listingItems,
-            modifier = Modifier
+            modifier = Modifier.fillMaxSize().padding(8.dp).weight(1f)
         )
     }
 }
