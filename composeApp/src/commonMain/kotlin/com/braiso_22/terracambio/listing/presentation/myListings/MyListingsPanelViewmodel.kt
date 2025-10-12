@@ -83,7 +83,7 @@ val myListingsViewmodelFactory = viewModelFactory {
         val userId = UserId(Uuid.random())
         val userDataSource = FakeUserLocalDataSource(userId)
         val listingDataSource = InMemoryListingLocalDataSource(
-            List(10) {
+            List(0) {
                 Listing.exampleWithIdAndOwner(
                     id = ListingId(Uuid.random()),
                     ownerId = OwnerId(userId.value)

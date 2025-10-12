@@ -24,4 +24,5 @@
     <string name="could_not_create">Couldn't create the listing</string>
     <string name="listing_created">Listing created</string>
     <string name="invalid_price">Invalid price</string>
+    <string name="add_listing_to_see">Add a listing to see it here</string>
 </resources>
