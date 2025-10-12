@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -18,6 +19,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.braiso_22.terracambio.listing.presentation.chat.ChatPanel
 import com.braiso_22.terracambio.listing.presentation.mapListings.MapListingItem
 import com.braiso_22.terracambio.listing.presentation.mapListings.MapPanel
 import com.braiso_22.terracambio.listing.presentation.myListings.MyListingsPanel
@@ -51,7 +53,7 @@ sealed interface Screen {
     data object Profile : Screen
 }
 
-val startDestination: Screen = Screen.Chat
+val startDestination: Screen = Screen.Profile
 
 @OptIn(ExperimentalUuidApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -78,17 +80,21 @@ fun Navigation(
     }
     val snackbarHostState = remember { SnackbarHostState() }
 
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
     fun navigateTo(screen: Screen) {
         if (selectedDestination == screen) return
         navController.navigate(route = screen)
+        scope.launch {
+            drawerState.close()
+        }
     }
 
-    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    val scope = rememberCoroutineScope()
     ModalNavigationDrawer(
         drawerState = drawerState,
         gesturesEnabled = (selectedDestination != Screen.AllListings
-                && selectedDestination != Screen.MyListings) || drawerState.isOpen,
+                && selectedDestination != Screen.MyListings
+                && selectedDestination != Screen.Chat) || drawerState.isOpen,
         drawerContent = {
             ModalDrawerSheet {
                 NavigationDrawerItem(
@@ -129,18 +135,34 @@ fun Navigation(
             topBar = {
                 TopAppBar(
                     navigationIcon = {
-                        IconButton(
-                            onClick = {
-                                scope.launch {
-                                    drawerState.open()
+                        if (selectedDestination == Screen.Chat) {
+                            IconButton(
+                                onClick = {
+                                    scope.launch {
+                                        navController.popBackStack()
+                                    }
                                 }
+                            ) {
+                                Icon(
+                                    Icons.AutoMirrored.Filled.ArrowBack,
+                                    contentDescription = "Go back",
+                                    modifier = Modifier
+                                )
                             }
-                        ) {
-                            Icon(
-                                Icons.Default.Menu,
-                                contentDescription = null,
-                                modifier = Modifier.padding(start = 8.dp)
-                            )
+                        } else {
+                            IconButton(
+                                onClick = {
+                                    scope.launch {
+                                        drawerState.open()
+                                    }
+                                }
+                            ) {
+                                Icon(
+                                    Icons.Default.Menu,
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                )
+                            }
                         }
                     },
                     title = {
@@ -157,39 +179,6 @@ fun Navigation(
                     modifier = Modifier.fillMaxWidth()
                 )
             },
-            bottomBar = {
-                if (selectedDestination != Screen.AllListings && selectedDestination != Screen.Chat) {
-                    return@Scaffold
-                }
-                NavigationBar(windowInsets = NavigationBarDefaults.windowInsets) {
-                    NavigationBarItem(
-                        selected = selectedDestination == Screen.Chat,
-                        onClick = {
-                            navigateTo(Screen.Chat)
-                        },
-                        icon = {
-                            Icon(
-                                Icons.AutoMirrored.Filled.Chat,
-                                contentDescription = null
-                            )
-                        },
-                        label = { Text(stringResource(Res.string.chat)) }
-                    )
-                    NavigationBarItem(
-                        selected = selectedDestination == Screen.AllListings,
-                        onClick = {
-                            navigateTo(Screen.AllListings)
-                        },
-                        icon = {
-                            Icon(
-                                Icons.Default.Map,
-                                contentDescription = null
-                            )
-                        },
-                        label = { Text(stringResource(Res.string.listing_map)) }
-                    )
-                }
-            },
             snackbarHost = {
                 SnackbarHost(hostState = snackbarHostState)
             },
@@ -197,13 +186,12 @@ fun Navigation(
             NavHost(
                 navController = navController,
                 modifier = modifier
-                    .fillMaxSize()
-                    .padding(paddingValues),
+                    .fillMaxSize(),
                 startDestination = startDestination
             ) {
                 composable<Screen.MyListings> {
                     MyListingsPanel(
-                        modifier = Modifier.padding(8.dp)
+                        modifier = Modifier.padding(paddingValues).padding(8.dp)
                     )
                 }
                 composable<Screen.NewListing> {
@@ -232,7 +220,7 @@ fun Navigation(
                                     )
                                 }
                             }
-                        }, modifier = Modifier.padding(8.dp)
+                        }, modifier = Modifier.padding(paddingValues).padding(8.dp)
                     )
                 }
                 composable<Screen.AllListings> {
@@ -249,11 +237,13 @@ fun Navigation(
                             )
                         },
                         onClickListing = {},
-                        modifier = Modifier.padding(8.dp)
+                        modifier = Modifier.padding(paddingValues).padding(8.dp)
                     )
                 }
                 composable<Screen.Chat> {
-                    // TODO: Chat screen
+                    ChatPanel(
+                        modifier = Modifier.padding(paddingValues)
+                    )
                 }
                 composable<Screen.Profile> {
 

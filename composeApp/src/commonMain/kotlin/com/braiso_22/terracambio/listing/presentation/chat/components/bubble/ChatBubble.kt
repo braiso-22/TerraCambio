@@ -11,42 +11,35 @@ import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
-import kotlin.time.Instant
 
-
-enum class BubbleType {
-    SENT, RECEIVED
-}
 
 @OptIn(ExperimentalTime::class)
 @Composable
 fun ColumnScope.ChatBubble(
-    type: BubbleType,
-    text: String,
-    date: Instant,
+    item: ChatItem,
     modifier: Modifier = Modifier,
 ) {
-    val formattedDate = "${date.toLocalDateTime(TimeZone.currentSystemDefault()).hour}:${
-        date.toLocalDateTime(
+    val formattedDate = "${item.date.toLocalDateTime(TimeZone.currentSystemDefault()).hour}:${
+        item.date.toLocalDateTime(
             TimeZone.currentSystemDefault()
         ).minute.toString().padStart(2, '0')
     }"
 
     // I add the formattedDate for hacking the position
-    val textLines = text.split(" ", "\n") + formattedDate
+    val textLines = item.text.split(" ", "\n") + formattedDate
 
-    val containerColor = when (type) {
+    val containerColor = when (item.type) {
         BubbleType.SENT -> MaterialTheme.colorScheme.primaryContainer
         BubbleType.RECEIVED -> MaterialTheme.colorScheme.secondaryContainer
     }
-    val contentColor = when (type) {
+    val contentColor = when (item.type) {
         BubbleType.SENT -> MaterialTheme.colorScheme.onPrimaryContainer
         BubbleType.RECEIVED -> MaterialTheme.colorScheme.onSecondaryContainer
     }
 
     Card(
         modifier = Modifier.align(
-            when (type) {
+            when (item.type) {
                 BubbleType.SENT -> Alignment.End
                 BubbleType.RECEIVED -> Alignment.Start
             }
@@ -100,25 +93,28 @@ fun ChatBubblePreview() {
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 ChatBubble(
-                    BubbleType.RECEIVED,
-                    "cacacacacaca cacacacaca cacacacacaca cacacacaca cacac aprubea",
-                    Clock.System.now(),
+                    item = ChatItem.OnlyTextMessage(
+                        "Testing this chat a lot! :)",
+                        BubbleType.RECEIVED,
+                        Clock.System.now(),
+                    ),
                     modifier = Modifier.width(250.dp)
                 )
                 ChatBubble(
-                    BubbleType.SENT,
-                    """
-                        Hello, how are you? ahahahahahahahahahaf aoaoao a aaaasdfasdfasjajjfjajfjajfajfajf
-                    """.trimIndent(),
-                    Clock.System.now(),
+                    item = ChatItem.OnlyTextMessage(
+                        "Sure this chat is incredible, how did you do it???????????😮",
+                        BubbleType.SENT,
+                        Clock.System.now(),
+                    ),
                     modifier = Modifier.width(250.dp)
                 )
                 ChatBubble(
-                    BubbleType.SENT,
-                    """
-                        Hello, how are you? ahahahahahahahahahaf aoaoao a aaaasdfasdfasjajjfjajfjajfajfajfasd
-                    """.trimIndent(),
-                    Clock.System.now(),
+                    item = ChatItem.OnlyTextMessage(
+                        "I mean how did you start, how did you think about " +
+                                "implementing this, this chat is a nonsense hehe",
+                        BubbleType.SENT,
+                        Clock.System.now(),
+                    ),
                     modifier = Modifier.width(250.dp)
                 )
             }
