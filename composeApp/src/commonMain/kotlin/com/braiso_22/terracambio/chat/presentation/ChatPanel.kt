@@ -3,9 +3,9 @@ package com.braiso_22.terracambio.chat.presentation
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.relocation.bringIntoViewRequester
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
@@ -22,6 +22,7 @@ import kotlin.time.ExperimentalTime
 @OptIn(ExperimentalTime::class, ExperimentalMaterial3Api::class)
 @Composable
 fun ChatPanel(
+    onClickBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val bringIntoViewRequester = remember { BringIntoViewRequester() }
@@ -38,43 +39,63 @@ fun ChatPanel(
     var messages by remember { mutableStateOf(emptyList<ChatItem>()) }
     var images by remember { mutableStateOf(emptyList<ImagePreview>()) }
 
-
-    Column(
+    Scaffold(
         modifier = modifier,
-    ) {
-        ChatBubbleList(
-            chats = messages,
-            modifier = Modifier.fillMaxSize().weight(1f)
-                .padding(8.dp)
-        )
-        ChatBottomBar(
-            text = text,
-            onChangeText = { text = it },
-            onSend = {
-                messages = messages + ChatItem.OnlyTextMessage(
-                    text = text,
-                    type = BubbleType.SENT,
-                    date = Clock.System.now()
-                ) + ChatItem.OnlyTextMessage(
-                    text = "I don't like `$text`",
-                    type = BubbleType.RECEIVED,
-                    date = Clock.System.now()
-                )
-                text = ""
-                images = emptyList()
-            },
-            images = images,
-            onAddImage = {
-                images = images + ImagePreview(images.size.toString())
-            },
-            onCloseImage = { imageToClose ->
-                images = images.filter { it.text != imageToClose.text }
-            },
-            modifier = Modifier.bringIntoViewRequester(bringIntoViewRequester),
-            onFocus = {
-                isTextFieldFocused = true
-            }
-        )
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text("Chat")
+                },
+                navigationIcon = {
+                    IconButton(
+                        onClick = onClickBack
+                    ) {
+                        Icon(
+                            Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Go back",
+                            modifier = Modifier
+                        )
+                    }
+                })
+        }
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier.padding(paddingValues),
+        ) {
+            ChatBubbleList(
+                chats = messages,
+                modifier = Modifier.fillMaxSize().weight(1f)
+                    .padding(8.dp)
+            )
+            ChatBottomBar(
+                text = text,
+                onChangeText = { text = it },
+                onSend = {
+                    messages = messages + ChatItem.OnlyTextMessage(
+                        text = text,
+                        type = BubbleType.SENT,
+                        date = Clock.System.now()
+                    ) + ChatItem.OnlyTextMessage(
+                        text = "I don't like `$text`",
+                        type = BubbleType.RECEIVED,
+                        date = Clock.System.now()
+                    )
+                    text = ""
+                    images = emptyList()
+                },
+                images = images,
+                onAddImage = {
+                    images = images + ImagePreview(images.size.toString())
+                },
+                onCloseImage = { imageToClose ->
+                    images = images.filter { it.text != imageToClose.text }
+                },
+                modifier = Modifier.bringIntoViewRequester(bringIntoViewRequester),
+                onFocus = {
+                    isTextFieldFocused = true
+                }
+            )
+        }
     }
 }
 
@@ -94,7 +115,9 @@ fun ChatPanelPreview() {
                     .padding(it)
                     .fillMaxSize()
             ) {
-                ChatPanel()
+                ChatPanel(
+                    onClickBack = {}
+                )
             }
         }
     }

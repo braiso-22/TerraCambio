@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -96,14 +95,13 @@ fun Navigation(
         }
     }
 
-    val useScaffold = selectedDestination != Screen.Login
+    val useScaffold = selectedDestination != Screen.Login && selectedDestination != Screen.Chat
 
     if (useScaffold) {
         ModalNavigationDrawer(
             drawerState = drawerState,
             gesturesEnabled = (selectedDestination != Screen.AllListings
-                    && selectedDestination != Screen.MyListings
-                    && selectedDestination != Screen.Chat) || drawerState.isOpen,
+                    && selectedDestination != Screen.MyListings) || drawerState.isOpen,
             drawerContent = {
                 ModalDrawerSheet {
                     NavigationDrawerItem(
@@ -144,34 +142,18 @@ fun Navigation(
                 topBar = {
                     TopAppBar(
                         navigationIcon = {
-                            if (selectedDestination == Screen.Chat) {
-                                IconButton(
-                                    onClick = {
-                                        scope.launch {
-                                            navController.popBackStack()
-                                        }
+                            IconButton(
+                                onClick = {
+                                    scope.launch {
+                                        drawerState.open()
                                     }
-                                ) {
-                                    Icon(
-                                        Icons.AutoMirrored.Filled.ArrowBack,
-                                        contentDescription = "Go back",
-                                        modifier = Modifier
-                                    )
                                 }
-                            } else {
-                                IconButton(
-                                    onClick = {
-                                        scope.launch {
-                                            drawerState.open()
-                                        }
-                                    }
-                                ) {
-                                    Icon(
-                                        Icons.Default.Menu,
-                                        contentDescription = null,
-                                        modifier = Modifier
-                                    )
-                                }
+                            ) {
+                                Icon(
+                                    Icons.Default.Menu,
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                )
                             }
                         },
                         title = {
@@ -281,7 +263,12 @@ fun AppNavHost(
             )
         }
         composable<Screen.Chat> {
-            ChatPanel()
+            ChatPanel(
+                onClickBack = {
+                    // custom because it has its own scaffold
+                    navController.popBackStack()
+                }
+            )
         }
         composable<Screen.Profile> {
 
@@ -289,6 +276,7 @@ fun AppNavHost(
         composable<Screen.Login> {
             LoginPanel(
                 onLogin = {
+                    // custom because it has its own scaffold and we cant go back to Login after it working
                     navController.navigate(Screen.Profile) {
                         popUpTo(Screen.Login) {
                             inclusive = true
