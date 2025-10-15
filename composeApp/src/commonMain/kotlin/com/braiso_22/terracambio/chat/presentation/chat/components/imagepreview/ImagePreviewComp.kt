@@ -1,4 +1,4 @@
-package com.braiso_22.terracambio.chat.presentation.components.imagepreview
+package com.braiso_22.terracambio.chat.presentation.chat.components.imagepreview
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

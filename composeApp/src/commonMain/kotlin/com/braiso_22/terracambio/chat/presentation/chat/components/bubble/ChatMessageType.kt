@@ -1,29 +1,29 @@
-package com.braiso_22.terracambio.chat.presentation.components.bubble
+package com.braiso_22.terracambio.chat.presentation.chat.components.bubble
 
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 
-sealed interface ChatItem {
+sealed interface ChatMessageType {
     val text: String
-    val type: BubbleType
+    val sender: Sender
 
     @OptIn(ExperimentalTime::class)
     val date: Instant
 
     data class OnlyTextMessage @OptIn(ExperimentalTime::class) constructor(
         override val text: String,
-        override val type: BubbleType,
+        override val sender: Sender,
         override val date: Instant,
-    ) : ChatItem
+    ) : ChatMessageType
 
     data class ImageMessage @OptIn(ExperimentalTime::class) constructor(
         override val text: String,
-        override val type: BubbleType,
+        override val sender: Sender,
         override val date: Instant,
         val image: String,
-    ) : ChatItem
+    ) : ChatMessageType
 }
 
-enum class BubbleType {
-    SENT, RECEIVED
+enum class Sender {
+    USER, OTHER
 }

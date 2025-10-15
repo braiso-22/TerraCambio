@@ -1,4 +1,4 @@
-package com.braiso_22.terracambio.chat.presentation.components.bubble
+package com.braiso_22.terracambio.chat.presentation.chat.components.bubble
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,7 +18,7 @@ import kotlin.time.ExperimentalTime
 @OptIn(ExperimentalTime::class)
 @Composable
 fun ChatBubbleList(
-    chats: List<ChatItem>,
+    chats: List<ChatMessageType>,
     modifier: Modifier = Modifier,
 ) {
     val listState = rememberLazyListState()
@@ -37,10 +37,10 @@ fun ChatBubbleList(
             items(chats) { chatItem ->
                 Column(modifier = Modifier.fillMaxWidth()) {
                     ChatBubble(
-                        item = ChatItem.OnlyTextMessage(
+                        item = ChatMessageType.OnlyTextMessage(
                             text = chatItem.text,
                             date = chatItem.date,
-                            type = chatItem.type,
+                            sender = chatItem.sender,
                         ),
                         modifier = Modifier.width(250.dp)
                     )
@@ -63,9 +63,9 @@ fun ChatBubbleListPreview() {
             ) {
                 ChatBubbleList(
                     List(30) {
-                        ChatItem.OnlyTextMessage(
+                        ChatMessageType.OnlyTextMessage(
                             text = "text ${it} ".repeat(it + 1),
-                            type = BubbleType.entries[it % 2],
+                            sender = Sender.entries[it % 2],
                             date = Clock.System.now()
                         )
                     },
