@@ -1,4 +1,4 @@
-package com.braiso_22.terracambio.chat.presentation.components.bubble
+package com.braiso_22.terracambio.chat.presentation.chat.components.bubble
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -6,8 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
+import com.braiso_22.terracambio.chat.presentation.dateFormatting.toTimeOrRecentDate
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
@@ -16,32 +15,28 @@ import kotlin.time.ExperimentalTime
 @OptIn(ExperimentalTime::class)
 @Composable
 fun ColumnScope.ChatBubble(
-    item: ChatItem,
+    item: ChatMessageType,
     modifier: Modifier = Modifier,
 ) {
-    val formattedDate = "${item.date.toLocalDateTime(TimeZone.currentSystemDefault()).hour}:${
-        item.date.toLocalDateTime(
-            TimeZone.currentSystemDefault()
-        ).minute.toString().padStart(2, '0')
-    }"
+    val formattedDate = item.date.toTimeOrRecentDate("yesterday")
 
     // I add the formattedDate for hacking the position
     val textLines = item.text.split(" ", "\n") + formattedDate
 
-    val containerColor = when (item.type) {
-        BubbleType.SENT -> MaterialTheme.colorScheme.primaryContainer
-        BubbleType.RECEIVED -> MaterialTheme.colorScheme.secondaryContainer
+    val containerColor = when (item.sender) {
+        Sender.USER -> MaterialTheme.colorScheme.primaryContainer
+        Sender.OTHER -> MaterialTheme.colorScheme.secondaryContainer
     }
-    val contentColor = when (item.type) {
-        BubbleType.SENT -> MaterialTheme.colorScheme.onPrimaryContainer
-        BubbleType.RECEIVED -> MaterialTheme.colorScheme.onSecondaryContainer
+    val contentColor = when (item.sender) {
+        Sender.USER -> MaterialTheme.colorScheme.onPrimaryContainer
+        Sender.OTHER -> MaterialTheme.colorScheme.onSecondaryContainer
     }
 
     Card(
         modifier = Modifier.align(
-            when (item.type) {
-                BubbleType.SENT -> Alignment.End
-                BubbleType.RECEIVED -> Alignment.Start
+            when (item.sender) {
+                Sender.USER -> Alignment.End
+                Sender.OTHER -> Alignment.Start
             }
         ).then(modifier),
         colors = CardDefaults.cardColors(
@@ -93,26 +88,26 @@ fun ChatBubblePreview() {
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 ChatBubble(
-                    item = ChatItem.OnlyTextMessage(
+                    item = ChatMessageType.OnlyTextMessage(
                         "Testing this chat a lot! :)",
-                        BubbleType.RECEIVED,
+                        Sender.OTHER,
                         Clock.System.now(),
                     ),
                     modifier = Modifier.width(250.dp)
                 )
                 ChatBubble(
-                    item = ChatItem.OnlyTextMessage(
+                    item = ChatMessageType.OnlyTextMessage(
                         "Sure this chat is incredible, how did you do it???????????😮",
-                        BubbleType.SENT,
+                        Sender.USER,
                         Clock.System.now(),
                     ),
                     modifier = Modifier.width(250.dp)
                 )
                 ChatBubble(
-                    item = ChatItem.OnlyTextMessage(
+                    item = ChatMessageType.OnlyTextMessage(
                         "I mean how did you start, how did you think about " +
                                 "implementing this, this chat is a nonsense hehe",
-                        BubbleType.SENT,
+                        Sender.USER,
                         Clock.System.now(),
                     ),
                     modifier = Modifier.width(250.dp)

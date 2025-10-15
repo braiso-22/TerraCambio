@@ -19,7 +19,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.braiso_22.terracambio.chat.presentation.ChatPanel
+import com.braiso_22.terracambio.chat.presentation.chat.ChatPanel
 import com.braiso_22.terracambio.identification.presentation.LoginPanel
 import com.braiso_22.terracambio.listing.presentation.mapListings.MapListingItem
 import com.braiso_22.terracambio.listing.presentation.mapListings.MapPanel
