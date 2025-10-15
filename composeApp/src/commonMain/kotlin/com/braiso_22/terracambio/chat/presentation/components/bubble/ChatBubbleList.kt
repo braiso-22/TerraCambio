@@ -1,4 +1,4 @@
-package com.braiso_22.terracambio.listing.presentation.chat.components.bubble
+package com.braiso_22.terracambio.chat.presentation.components.bubble
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn

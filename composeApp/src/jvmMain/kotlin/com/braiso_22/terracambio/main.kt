@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import com.braiso_22.terracambio.listing.presentation.navigation.Navigation
+import com.braiso_22.terracambio.navigation.Navigation
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 fun main() = application {
