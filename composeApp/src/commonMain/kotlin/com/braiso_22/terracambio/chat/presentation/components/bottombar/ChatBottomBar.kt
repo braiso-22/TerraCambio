@@ -1,4 +1,4 @@
-package com.braiso_22.terracambio.listing.presentation.chat.components.bottombar
+package com.braiso_22.terracambio.chat.presentation.components.bottombar
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
@@ -10,8 +10,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.braiso_22.terracambio.listing.presentation.chat.components.imagepreview.ImagePreview
-import com.braiso_22.terracambio.listing.presentation.chat.components.imagepreview.ImagePreviewRoster
+import com.braiso_22.terracambio.chat.presentation.components.imagepreview.ImagePreview
+import com.braiso_22.terracambio.chat.presentation.components.imagepreview.ImagePreviewRoster
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable

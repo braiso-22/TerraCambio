@@ -7,7 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.braiso_22.terracambio.listing.presentation.navigation.Navigation
+import com.braiso_22.terracambio.navigation.Navigation
 import kotlin.uuid.ExperimentalUuidApi
 
 class MainActivity : ComponentActivity() {

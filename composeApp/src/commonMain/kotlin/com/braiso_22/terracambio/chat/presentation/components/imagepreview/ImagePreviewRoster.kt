@@ -1,4 +1,4 @@
-package com.braiso_22.terracambio.listing.presentation.chat.components.imagepreview
+package com.braiso_22.terracambio.chat.presentation.components.imagepreview
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

@@ -1,4 +1,4 @@
-package com.braiso_22.terracambio.listing.presentation.chat.components.bubble
+package com.braiso_22.terracambio.chat.presentation.components.bubble
 
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant

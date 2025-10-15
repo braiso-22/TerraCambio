@@ -1,4 +1,4 @@
-package com.braiso_22.terracambio.listing.presentation.chat
+package com.braiso_22.terracambio.chat.presentation
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.relocation.BringIntoViewRequester
@@ -10,11 +10,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
-import com.braiso_22.terracambio.listing.presentation.chat.components.bottombar.ChatBottomBar
-import com.braiso_22.terracambio.listing.presentation.chat.components.bubble.BubbleType
-import com.braiso_22.terracambio.listing.presentation.chat.components.bubble.ChatBubbleList
-import com.braiso_22.terracambio.listing.presentation.chat.components.bubble.ChatItem
-import com.braiso_22.terracambio.listing.presentation.chat.components.imagepreview.ImagePreview
+import com.braiso_22.terracambio.chat.presentation.components.bottombar.ChatBottomBar
+import com.braiso_22.terracambio.chat.presentation.components.bubble.BubbleType
+import com.braiso_22.terracambio.chat.presentation.components.bubble.ChatBubbleList
+import com.braiso_22.terracambio.chat.presentation.components.bubble.ChatItem
+import com.braiso_22.terracambio.chat.presentation.components.imagepreview.ImagePreview
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
