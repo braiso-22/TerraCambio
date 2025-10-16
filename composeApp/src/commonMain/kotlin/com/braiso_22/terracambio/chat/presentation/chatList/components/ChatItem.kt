@@ -1,5 +1,9 @@
 package com.braiso_22.terracambio.chat.presentation.chatList.components
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -18,14 +22,16 @@ import kotlin.time.Duration.Companion.hours
 import kotlin.time.ExperimentalTime
 
 data class ChatItem(
+    val id: String,
     val contactName: String,
     val lastMessage: ChatMessageType,
 )
 
-@OptIn(ExperimentalTime::class)
+@OptIn(ExperimentalTime::class, ExperimentalFoundationApi::class)
 @Composable
-fun ChatItem(
+fun ChatItemComp(
     state: ChatItem,
+    onClick: (ChatItem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     ListItem(
@@ -38,7 +44,9 @@ fun ChatItem(
         trailingContent = {
             Text(state.lastMessage.date.toTimeOrRecentDate("yesterday"))
         },
-        modifier = modifier,
+        modifier = modifier.clickable {
+            onClick(state)
+        },
     )
 }
 
@@ -49,39 +57,46 @@ fun ChatItemPreview() {
     MaterialTheme {
         Scaffold {
             Column(
-                modifier = Modifier
+                modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer)
                     .padding(it)
-                    .fillMaxSize()
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.SpaceAround
             ) {
-                ChatItem(
+                ChatItemComp(
                     state = ChatItem(
+                        id = "3",
                         contactName = "Jane Doe",
                         lastMessage = ChatMessageType.OnlyTextMessage(
                             text = "toca hacer test",
                             sender = Sender.USER,
                             date = Clock.System.now()
                         )
-                    )
+                    ),
+                    onClick = {},
                 )
-                ChatItem(
+                ChatItemComp(
                     state = ChatItem(
+                        id = "2",
                         contactName = "John Doe",
                         lastMessage = ChatMessageType.OnlyTextMessage(
                             text = "test de vaca",
                             sender = Sender.USER,
                             date = Clock.System.now() - 24.hours
                         )
-                    )
+                    ),
+                    onClick = {},
                 )
-                ChatItem(
+                ChatItemComp(
                     state = ChatItem(
+                        id = "1",
                         contactName = "Pepe",
                         lastMessage = ChatMessageType.OnlyTextMessage(
                             text = "test",
                             sender = Sender.USER,
                             date = Clock.System.now() - 48.hours
                         )
-                    )
+                    ),
+                    onClick = {},
                 )
             }
         }
