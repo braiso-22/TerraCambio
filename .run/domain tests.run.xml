@@ -13,6 +13,8 @@
                 <list>
                     <option value=":listing:cleanJvmTest" />
                     <option value=":listing:jvmTest" />
+                    <option value=":chat:cleanAllTests" />
+                    <option value=":chat:jvmTest" />
                 </list>
             </option>
             <option name="vmOptions" />
